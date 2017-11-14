@@ -48,7 +48,7 @@ public class CommonServiceTest {
 	public void test() throws Exception{
 		System.out.println("테스트");
 		System.out.println(jdbcTemplate.queryForObject("select * from board where seq = 100", new RowMapperImpl(BoardBean.class)));
-		System.out.println("테스트 완료");
+		System.out.println("테스트 완료!!");
 	}
 	
 	public boolean insertService(String query,Object... args) throws SQLException {
