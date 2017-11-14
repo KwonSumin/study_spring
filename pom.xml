@@ -11,7 +11,13 @@
   	<spring.version>4.3.12.RELEASE</spring.version>
   </properties>
   <dependencies>
-  	
+  	<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+	<dependency>
+	    <groupId>javax.inject</groupId>
+	    <artifactId>javax.inject</artifactId>
+	    <version>1</version>
+	</dependency>
+	  	
   	<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
