@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import co.kr.ucs.spring.common.ReflectUtil;
+import co.kr.ucs.spring.service.CommonService;
 import co.kr.ucs.spring.service.CommonServiceTest;
 import co.kr.ucs.spring.spring.bean.SignBean;
 
@@ -24,7 +26,11 @@ import co.kr.ucs.spring.spring.bean.SignBean;
 @WebServlet("/sign/*")
 public class SignController extends HttpServlet {
 	private static final long serialVersionUID = 2L;
-    private static Logger logger = LoggerFactory.getLogger(SignController.class);
+    
+	@Autowired
+	private CommonService commonService;
+	
+	private static Logger logger = LoggerFactory.getLogger(SignController.class);
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -39,6 +45,7 @@ public class SignController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
+		if(commonService !=null)System.out.println("서비스가능"); else System.out.println("널값");
 		
 		super.service(request, response);
 	}
