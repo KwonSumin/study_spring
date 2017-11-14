@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import co.kr.ucs.spring.aop.TestService;
 import co.kr.ucs.spring.bean.BoardBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
@@ -44,10 +45,15 @@ public class CommonServiceTest {
 		}
 	}
 	
+	@Autowired
+	private TestService testService;
+	
 	@Test
 	public void test() throws Exception{
 		System.out.println("테스트");
 		System.out.println(jdbcTemplate.queryForObject("select * from board where seq = 100", new RowMapperImpl(BoardBean.class)));
+
+		testService.print("테스트 str");
 		System.out.println("테스트 완료!!");
 	}
 	
