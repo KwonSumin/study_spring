@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	<bean id="aop" class="co.kr.ucs.spring.aop.TestAOP">
 	</bean>
-	<!-- xml aop
+	<!-- xml aop setting
 	<aop:config>
 		<aop:aspect id="testAOP" ref="aop">
 			<aop:pointcut expression="execution(public * co.kr.ucs..*(..))" id="all"/>

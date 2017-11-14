@@ -10,8 +10,18 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class TestAOP {
 	
+	private boolean hasNeedLog = true;
 	
 	
+	
+	public boolean isHasNeedLog() {
+		return hasNeedLog;
+	}
+
+	public void setHasNeedLog(boolean hasNeedLog) {
+		this.hasNeedLog = hasNeedLog;
+	}
+
 	public TestAOP() {
 		System.out.println("aop생성");
 	}
@@ -23,9 +33,18 @@ public class TestAOP {
 	
 	@Before("execution(public * co.kr.ucs..*(..))")
 	public void before(JoinPoint jp) {
-		String methodName = jp.getSignature().getName();
-		String className = jp.getSignature().getDeclaringTypeName();
-		System.out.printf("[%s.%s()]\n",className,methodName);
+		MethodInfo info = new MethodInfo();
+		
+		if(hasNeedLog) {
+			String methodName = jp.getSignature().getName();
+			String className = jp.getSignature().getDeclaringTypeName();
+			info.setMethodName(jp.getSignature().getName());
+			info.setClassName(jp.getSignature().getDeclaringTypeName());
+			System.out.printf("[%s.%s()]\n",className,methodName);
+			System.out.println(info.toString());
+		}
+
+	
 	}
 	
 	@Around("all()")
@@ -33,9 +52,11 @@ public class TestAOP {
 		System.out.println("around");
 		
 		try {
+			
 			Object[] args = jp.getArgs();
 			int i=1;
-			for(Object arg : args)System.out.printf("%d. 아규먼트 : %s\n",i++,arg.toString());
+			if(hasNeedLog)
+				for(Object arg : args)System.out.printf("%d. 아규먼트 : %s\n",i++,arg.toString());
 			
 			return jp.proceed();
 		}catch(Throwable e) {
@@ -44,6 +65,39 @@ public class TestAOP {
 		}
 		
 	}
+	
+	
+}
+
+
+class MethodInfo {
+	String className;
+	String methodName;
+	String simpleClassName;
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+		this.simpleClassName = getSimpleClassName();
+	}
+	public String getMethodName() {
+		return methodName;
+	}
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+	
+	public String getSimpleClassName() {
+		return this.className.substring(this.className.lastIndexOf(".")+1);
+	}
+	@Override
+	public String toString() {
+		return "MethodInfo [className=" + className + ", methodName=" + methodName + ", simpleClassName="
+				+ simpleClassName + "]";
+	}
+	
+	
 	
 	
 }
