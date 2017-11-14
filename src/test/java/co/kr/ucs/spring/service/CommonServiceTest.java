@@ -12,11 +12,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import co.kr.ucs.spring.bean.BoardBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
 import co.kr.ucs.spring.dao.RowMapperImpl;
-import co.kr.ucs.spring.spring.bean.BoardBean;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

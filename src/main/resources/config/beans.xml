@@ -7,9 +7,6 @@
 	
 	<context:component-scan base-package="co.kr.ucs.spring"></context:component-scan>
 	<context:property-placeholder location="classpath:config/db.properties" />
-	
-	
-	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="${db.driverClass}"></property>
 		<property name="url" value="${db.url}"></property>

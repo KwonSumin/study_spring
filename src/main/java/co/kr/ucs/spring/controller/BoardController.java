@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 import co.kr.ucs.spring.bean.BoardBean;
 import co.kr.ucs.spring.bean.PagingBean;
 import co.kr.ucs.spring.common.ReflectUtil;
-import co.kr.ucs.spring.service.CommonServiceTest;
+import co.kr.ucs.spring.service.CommonService;
 
 /**
  * Servlet implementation class SignController
@@ -60,7 +60,7 @@ public class BoardController extends HttpServlet {
 		//uri root + 기본 uri sign을 제외한 뒷부분만 자름
 		String root = request.getContextPath();
 		uri = uri.replaceAll(root + "/board/", "");
-		CommonServiceTest svc = new CommonServiceTest();
+		CommonService svc = new CommonService();
 		String query;
 		String totalQuery;	
 		Gson gson = new Gson();
@@ -153,7 +153,7 @@ public class BoardController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
-		CommonServiceTest svc = new CommonServiceTest();
+		CommonService svc = new CommonService();
 		String root = request.getContextPath();
 		//uri root + 기본 uri sign을 제외한 뒷부분만 자름
 		uri = uri.replaceAll(root + "/board/", "");

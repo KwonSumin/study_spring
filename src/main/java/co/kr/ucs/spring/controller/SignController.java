@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import co.kr.ucs.spring.bean.SignBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.service.CommonService;
-import co.kr.ucs.spring.service.CommonServiceTest;
 
 /**
  * Servlet implementation class SignController
@@ -26,11 +24,7 @@ import co.kr.ucs.spring.service.CommonServiceTest;
 @WebServlet("/sign/*")
 public class SignController extends HttpServlet {
 	private static final long serialVersionUID = 2L;
-    
-	@Autowired
-	private CommonService commonService;
-	
-	private static Logger logger = LoggerFactory.getLogger(SignController.class);
+    private static Logger logger = LoggerFactory.getLogger(SignController.class);
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -45,7 +39,6 @@ public class SignController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
-		if(commonService !=null)System.out.println("서비스가능"); else System.out.println("널값");
 		
 		super.service(request, response);
 	}
@@ -70,7 +63,7 @@ public class SignController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
-		CommonServiceTest svc = new CommonServiceTest();
+		CommonService svc = new CommonService();
 		String root = request.getContextPath();
 		//uri root + 기본 uri sign을 제외한 뒷부분만 자름
 		uri = uri.replaceAll(root + "/sign/", "");

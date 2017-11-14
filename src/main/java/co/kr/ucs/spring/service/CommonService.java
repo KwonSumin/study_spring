@@ -5,23 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
-
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
 
-
-@Service
 public class CommonService {
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	//DBConnectionPoolManager 싱글톤으로 되어있어서 멤버(전역)변수로 선언해도 되는지...
 	private DBConnectionPoolManager dbManager;
-
-	
 	public CommonService() {
 		super();
 		String url = "jdbc:oracle:thin:@220.76.203.39:1521:UCS";
