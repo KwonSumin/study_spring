@@ -20,10 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+import co.kr.ucs.spring.bean.BoardBean;
+import co.kr.ucs.spring.bean.PagingBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.service.CommonServiceTest;
-import co.kr.ucs.spring.spring.bean.BoardBean;
-import co.kr.ucs.spring.spring.bean.PagingBean;
 
 /**
  * Servlet implementation class SignController

@@ -15,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import co.kr.ucs.spring.bean.SignBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.service.CommonService;
 import co.kr.ucs.spring.service.CommonServiceTest;
-import co.kr.ucs.spring.spring.bean.SignBean;
 
 /**
  * Servlet implementation class SignController
