@@ -5,12 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.RowMapperImpl;
+import co.kr.ucs.spring.mybatis.PersonalMybatis;
 
 public class CommonService_jdbc {
 	
@@ -72,6 +74,13 @@ public class CommonService_jdbc {
 	//테스트 완료
 	public Map selectOneService(String query) throws SQLException,IllegalAccessException  {
 		return jdbcTemplate.queryForMap(query);
+	}
+	
+	public int updateService(String query,Object bean) throws IllegalAccessException,Exception{
+		Object[] args = PersonalMybatis.sortValues(query, bean);
+		Pattern p = Pattern.compile("\\$\\{[^}]*\\}");
+		query = query.replaceAll(p.pattern(), "?");
+		return jdbcTemplate.update(query,args);
 	}
 	
 	

@@ -51,6 +51,19 @@ public class JdbcTester {
 	public void selectOneService_query() throws Exception{
 		System.out.println(util.selectOneService("select count(*) from board where seq=100"));
 	}
-	
+	/*
+	 * @Test insert, update 쿼리 가능 mybatis 형식쿼리문장..#은 미구현
+	 * preparestaetment $만 구현
+	 */
+	public void updateService() throws Exception{
+		String query = "insert into board(SEQ,title,reg_id,contents)"
+				+ " values( (select max(seq) from board)+1,${title},${reg_id},${contents})";
+		BoardBean bean = new BoardBean();
+		bean.setTitle("title");
+		bean.setReg_id("regid");
+		bean.setContents("content");
+		
+		System.out.println(util.updateService(query, bean));
+	}
 	
 }
