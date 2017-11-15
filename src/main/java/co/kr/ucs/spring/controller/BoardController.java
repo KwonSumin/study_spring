@@ -40,12 +40,10 @@ public class BoardController extends HttpServlet {
     }
 
     
-    
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
 		
 		super.service(request, response);
 	}

@@ -9,6 +9,8 @@
 	<configs>
 		<config>src/main/resources/config/beans.xml</config>
 		<config>src/main/resources/logback.xml</config>
+		<config>src/main/webapp/WEB-INF/spring-servlet.xml</config>
+		<config>src/main/resources/sql/sql.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
