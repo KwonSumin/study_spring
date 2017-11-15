@@ -12,6 +12,8 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Test;
+
 public class ReflectUtil {
 	public static void main(String[] args) {
 		/*int num = 1;
@@ -45,6 +47,29 @@ public class ReflectUtil {
 		return null;
 	}
 	
+	@Test //테스트 용도 클래스와 무관
+	public void test() {
+		//generic parameter type = Object; Object...objs = Object[] array parameter
+		ReflectUtil util = new ReflectUtil();
+		Class[] types = {};
+		try {
+			Method[] methods = util.getClass().getDeclaredMethods();
+			for(Method method : methods) {
+				
+				if(method.getName().equals("requestToSetBean")) {
+					types = new Class[method.getParameterCount()];
+					System.out.println(method.getParameterCount());
+					for(int i=0; i<=method.getParameterCount()-1;i++) {
+						System.out.println(i);
+						types[i] = method.getParameterTypes()[i];
+					}
+				}
+			}
+			for(Class t : types) System.out.println(t.getName());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static <T> T requestToSetBean(HttpServletRequest request,T obj) throws IllegalAccessException {
 		//1차 테스트 완료
@@ -56,7 +81,7 @@ public class ReflectUtil {
 			for(Field field : Fields) {
 				field.setAccessible(true);
 				String fieldName = field.getName();
-				System.out.println(fieldName);
+				System.out.println(fieldName+" : " + field.get(obj));
 				if(requestParam.equals(fieldName)) {
 					Object value = request.getParameter(requestParam);
 					value = ReflectUtil.castType(value, field.getType());

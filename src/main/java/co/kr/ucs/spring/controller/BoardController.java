@@ -81,20 +81,20 @@ public class BoardController extends HttpServlet {
 						+ "( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM"
 						+ " ( select * from board "
 						+ "order by seq desc ) A ) where RNUM > "+bean.getStartRowNum()+" AND RNUM <="+bean.getEndRowNum()
-						+ " order by seq desc";
+						;
 				if(bean.getSearch()!=null&&!bean.getSearch().equals("") && bean.getSearch()!=null) {
 					totalQuery += " where "+bean.getSearchTarget()+" like '%"+bean.getSearch()+"%'";
 					query = "select * from "
 							+ "( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM"
 							+ " ( select * from board where "+bean.getSearchTarget()+" like '%"+bean.getSearch()+"%'"
 							+ "order by seq desc )  A ) where RNUM > "+bean.getStartRowNum()+" AND RNUM <="+bean.getEndRowNum()
-							+ " order by seq desc";
+							;
 				}
 				
 				bean.setTotal((Integer)ReflectUtil.castType(svc.selectOneService(totalQuery), Integer.TYPE));
 				
 				bean.setPaging();
-				logger.info(bean.toString());
+				logger.info(bean.toString()+"\n"+(new Exception().getStackTrace()));
 				ArrayList list = svc.selectList(query,new BoardBean().getClass());
 				logger.info(list.toString());
 				
@@ -162,7 +162,7 @@ public class BoardController extends HttpServlet {
 		String view;
 		
 		if(uri.equals("write.do")) {
-			query = "insert into BOARD(SEQ,REG_ID,TITLE,CONTENTS) "
+			query = "insert into BOARD(SEQ,TITLE,CONTENTS,REG_ID) "
 					+ "values( (select max(seq)+1 from board) ,?,?,?)";
 			try {
 				BoardBean bean = ReflectUtil.requestToSetBean(request, new BoardBean());

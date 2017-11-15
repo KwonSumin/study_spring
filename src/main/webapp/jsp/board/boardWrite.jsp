@@ -51,7 +51,7 @@
 				</tr>
 			</table>
 			<div class="foot" >
-				<button type="submit" class="btn">저장</button>		<button type="button" onclick="location.href='${pageContext.request.contextPath}/board/list'  " class="btn">목록</button>
+				<button type="submit" class="btn">저장</button>		<button type="button" onclick="history.back()" class="btn">목록</button>
 			</div>
 		</form>
 	</div>

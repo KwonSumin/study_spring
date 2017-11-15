@@ -106,6 +106,7 @@ public class SignController extends HttpServlet {
 				bean = (SignBean)svc.selectOneService(query, bean, bean.getClass());
 				if(bean.getUser_id() != null) {
 					message = "로그인 성공";
+					request.getSession().setAttribute("id", bean.getUser_id());
 					view = root+"/board/list";
 					alertForward(response, message, view);
 				} else {

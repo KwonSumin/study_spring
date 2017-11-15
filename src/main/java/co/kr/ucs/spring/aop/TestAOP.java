@@ -1,5 +1,7 @@
 package co.kr.ucs.spring.aop;
 
+import java.util.ArrayList;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -54,10 +56,15 @@ public class TestAOP {
 		try {
 			
 			Object[] args = jp.getArgs();
+			ArrayList<Class> types = new ArrayList<Class>();
 			int i=1;
-			if(hasNeedLog)
-				for(Object arg : args)System.out.printf("%d. 아규먼트 : %s\n",i++,arg.toString());
-			
+			if(hasNeedLog) {
+				for(Object arg : args) {
+					System.out.printf("%d. 아규먼트 : %s , %s\n",i++,arg.toString(),arg.getClass().getTypeName());
+					types.add(arg.getClass());
+				}
+				
+			}
 			return jp.proceed();
 		}catch(Throwable e) {
 			e.printStackTrace();
@@ -74,6 +81,7 @@ class MethodInfo {
 	String className;
 	String methodName;
 	String simpleClassName;
+	String[] argTypes;
 	public String getClassName() {
 		return className;
 	}

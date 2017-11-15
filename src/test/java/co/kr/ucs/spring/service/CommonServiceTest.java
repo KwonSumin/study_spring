@@ -52,7 +52,7 @@ public class CommonServiceTest {
 	public void test() throws Exception{
 		System.out.println("테스트");
 		System.out.println(jdbcTemplate.queryForObject("select * from board where seq = 100", new RowMapperImpl(BoardBean.class)));
-
+			
 		testService.print("테스트 str");
 		System.out.println("테스트 완료!!");
 	}

@@ -39,7 +39,7 @@
 				</tr>			
 			</table>
 			<div class="foot">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list' ">취소</button>
+					<button type="button" class="btn" onclick="history.back()">취소</button>
 			</div>
 		</form>
 	</div>

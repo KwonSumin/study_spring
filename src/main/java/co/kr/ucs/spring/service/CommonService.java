@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
@@ -12,6 +16,10 @@ import co.kr.ucs.spring.dao.DBConnectionPoolManager;
 public class CommonService {
 	
 	//DBConnectionPoolManager 싱글톤으로 되어있어서 멤버(전역)변수로 선언해도 되는지...
+	
+	private Logger logger = LoggerFactory.getLogger(CommonService.class);
+	private JdbcTemplate jdbcTemplate;
+	
 	private DBConnectionPoolManager dbManager;
 	public CommonService() {
 		super();
@@ -52,6 +60,9 @@ public class CommonService {
 		boolean isSuccess = false;
 		DBConnectionPool dao = dbManager.getDBPool("commonPool");
 		ArrayList<Object> values = ReflectUtil.getNotNullValues(bean);
+		
+		logger.info(values.toString()+"\n"+(new Exception().getStackTrace()));
+		
 		if(dao.insertQuery(query, values)>=1) isSuccess = true;
 		return isSuccess;
 	}
