@@ -6,24 +6,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-	<!-- 미사용 xml : WEB-INF/spring-servlet.xml에서 사용  -->
-<!-- 
+	<!-- junit test용 xml -->
 
-	<bean id="aop" class="co.kr.ucs.spring.aop.TestAOP">
-	</bean>
-	<aop:aspectj-autoproxy/>
 	<context:annotation-config></context:annotation-config>
-	<context:component-scan base-package="co.kr.ucs.spring"></context:component-scan>
+	<context:component-scan base-package="co.kr.ucs"></context:component-scan>
+	<context:component-scan base-package="mvc.co.kr.ucs"></context:component-scan>
+	<bean id="testService" class="co.kr.ucs.spring.aop.TestService"></bean>
+	<context:component-scan base-package="com.spring.web"/> 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg  ref="dataSource_default" > </constructor-arg>
+	</bean>
+	
 	<context:property-placeholder location="classpath:config/db.properties" />
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	<bean id="dataSource_default" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="${db.driverClass}"></property>
 		<property name="url" value="${db.url}"></property>
 		<property name="username" value="${db.username}"></property>
 		<property name="password" value="${db.password}"></property>
 	</bean>
 	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg  ref="dataSource" > </constructor-arg>
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSource_default" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  "/>
+            </bean>
+        </property>
+    </bean>
+	<!-- SESSIONFACTORY 설정 --> 
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> <property name="dataSource" ref="dataSource" /> 
+		<!-- ibatis와 다르게 sql디렉토리에 xml 추가만 해주면 별도추가없이 알아서 xml내의 쿼리 인식 --> 
+		<property name="mapperLocations" value="classpath*:sql/**/*.xml" /> 
+	</bean> 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
+		<constructor-arg ref="sqlSessionFactory" /> 
 	</bean>
- -->
+
 </beans>

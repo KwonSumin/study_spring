@@ -2,6 +2,8 @@ package co.kr.ucs.spring.service;
 
 import java.sql.SQLException;
 
+import org.junit.Test;
+
 import co.kr.ucs.spring.bean.BoardBean;
 
 public class JdbcTester {
@@ -47,7 +49,7 @@ public class JdbcTester {
 		System.out.println(util.selectOneService(query,BoardBean.class));
 	}
 	
-	//@Test
+	@Test
 	public void selectOneService_query() throws Exception{
 		System.out.println(util.selectOneService("select count(*) from board where seq=100"));
 	}

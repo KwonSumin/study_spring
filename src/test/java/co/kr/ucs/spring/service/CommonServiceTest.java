@@ -22,7 +22,7 @@ import co.kr.ucs.spring.dao.RowMapperImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {
-	"file:src/main/webapp/WEB-INF/spring-servlet.xml"
+	"classpath:/config/beans.xml"
 })
 public class CommonServiceTest {
 	@Autowired
