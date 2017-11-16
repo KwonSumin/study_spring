@@ -7,6 +7,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from board where seq = ${seq}
 	</select>
 	
+	<select id="selectQuery" resultType="Object" parameterType="String" >
+		${value}
+	</select>
+	
+	<insert id="insert" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+		insert into ${tableName}
+		<foreach collection="setStatement" open="(" close=")" item="item" separator=",">
+			${item.field}
+		</foreach>
+		values
+		<foreach collection="setStatement" open="(" close=")" item="item" separator=",">
+			#{item.value}
+		</foreach>
+	</insert>
+	
 	<delete id="delete" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
 	
 	</delete>
@@ -40,14 +55,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select * from
 			( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM
 			( select * from ${tableName}
-			order by ${seq} desc ) A ) where RNUM <![CDATA[>]]>
+			order by ${primaryKey} desc ) A ) where RNUM <![CDATA[>]]>
 			 #{startRow} AND RNUM <![CDATA[<=]]> #{endRow}
 		</if>
 		<if test="search!=null">
 			select * from 
 				( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM
 				(select * from ${tableName} where ${searchTarget} like '%${search}%'
-				order by seq desc) A ) where RNUM <![CDATA[>]]>#{startRow} AND RNUM <![CDATA[<=]]> #{endRow}
+				order by ${primaryKey} desc) A ) where RNUM <![CDATA[>]]>#{startRow} AND RNUM <![CDATA[<=]]> #{endRow}
 		</if>
 		
 	</select>

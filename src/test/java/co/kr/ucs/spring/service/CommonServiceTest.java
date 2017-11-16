@@ -17,7 +17,7 @@ import co.kr.ucs.spring.aop.TestService;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
-import mvc.co.kr.ucs.bean.PagingBean;
+import mvc.co.kr.ucs.bean.BoardBean;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,16 +61,18 @@ public class CommonServiceTest {
 		testService.print("테스트 str");
 		System.out.println("테스트 완료!!");
 		*/
-		PagingBean param = new PagingBean();
+		
+		Object seq = sql.selectOne("common.selectQuery","select max(seq) from board");
+		System.out.println(seq);
+		BoardBean param = new BoardBean();
+		param.setSeqName("seq");
+		param.setPrimaryKey("seq");
 		param.setTableName("board");
-		param.addIf("seq", 539);
-		param.addSet("title", "modify");
-		System.out.println(param);
-		param.setSearchTarget("title");
-		param.setSearch("test");
-		param.setPaging();
-		System.out.println(sql.update("common.update",param));
-		System.out.println(sql.selectList("common.list",param));
+		param.addSet("seq", Integer.parseInt(seq.toString())+1);
+		param.addSet("title", "제목");
+		param.addSet("contents", "내용");
+		param.addSet("reg_id", "작성자");
+		System.out.println(sql.insert("common.insert", param));
 	}
 	
 	public boolean insertService(String query,Object... args) throws SQLException {

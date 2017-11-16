@@ -14,7 +14,7 @@ var Paging = function(){
         pageSize : 10, //페이징 개수  *
         totalPage : -1, //전체 페이지 개수 *
         totalData : -1, //전체 데이터개수 *
-        pageIdx : 1, //현재 페이징 인덱스
+        pageIdx : 0, //현재 페이징 인덱스
         rowSize : 10,
         startRow : 0, //데이터베이스 참조할 row
         endRow : 9, //데이터 베이스 참조 마지막 row
@@ -146,7 +146,7 @@ var Paging = function(){
             obj.currentPage =1;
             obj.startPage = 1;
             obj.endPage = obj.startPage + obj.pageSize -1;
-            obj.pageIdx = 1;
+            obj.pageIdx = 0;
             
             
         } else if(move=='last'){

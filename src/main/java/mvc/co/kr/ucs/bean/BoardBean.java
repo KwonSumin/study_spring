@@ -1,7 +1,7 @@
 package mvc.co.kr.ucs.bean;
 
 public class BoardBean extends PagingBean {
-	private Integer seq;
+	private int seq;
 	private String title;
 	private String contents;
 	private String reg_id;

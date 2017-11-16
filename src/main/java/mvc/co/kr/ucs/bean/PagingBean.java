@@ -17,18 +17,11 @@ public class PagingBean extends CommonQueryBean {
 	private int endRow; //db에서값 받아올때 사용 페이징 처리에서 무관
 	private String search;
 	private String searchTarget;
-	private String seq = "seq";
 	public int getRowSize() {
 		return rowSize;
 	}
 	public void setRowSize(int rowSize) {
 		this.rowSize = rowSize;
-	}
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
 	}
 	public void setPaging() {
 		this.startRow = currentPage * rowSize-rowSize;
