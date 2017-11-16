@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sql">
 	<select id="test" resultType="co.kr.ucs.spring.bean.BoardBean" parameterType="co.kr.ucs.spring.bean.BoardBean">
 		select * from board where seq = ${seq}
@@ -9,8 +11,8 @@
 		select * from ${tableName}
 		<if test="ifStatement != null">
 			where
-			<foreach collection="ifStatement" item="item" separator=",">
-				${item.field} = ${item.value}
+			<foreach collection="ifStatement" item="item" separator="AND">
+				${item.field} = #{item.value}
 			</foreach>
 		</if>
 		

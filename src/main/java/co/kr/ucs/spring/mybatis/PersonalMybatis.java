@@ -14,7 +14,7 @@ public class PersonalMybatis {
 		bean.setSeq(100);
 		bean.setReg_id("user id");
 		bean.setContents("content");
-		String query = "insert into board(${seq},${reg_id},${contents})";
+		String query = "insert into board(#{seq},#{reg_id},#{contents})";
 		//System.out.println(setStatement(query, bean));
 		
 		Object[] arr = sortValues(query, bean);
@@ -22,14 +22,14 @@ public class PersonalMybatis {
 	}
 	
 	public static String setStatement(String query,Object bean) throws Exception {
-		Pattern p = Pattern.compile("\\$\\{[^}]*\\}");
+		Pattern p = Pattern.compile("\\#\\{[^}]*\\}");
 		String[] values = {};
 		
 		Matcher m = p.matcher(query);
 		
 		while(m.find()){
 			String method = "get";
-			String temp = m.group().replace("${", "");
+			String temp = m.group().replace("#{", "");
 			temp = temp.replace("}", "").toLowerCase();
 			method += temp.substring(0, 1).toUpperCase() + 
 					temp.substring(1);
@@ -43,17 +43,17 @@ public class PersonalMybatis {
 	}
 	
 	
-	//${}파싱하여 객체 필드명 순서대로 value값 정리
+	//#{}파싱하여 객체 필드명 순서대로 value값 정리
 	public static Object[] sortValues(final String query,Object bean) throws Exception {
 		Object[] result;
-		Pattern p = Pattern.compile("\\$\\{[^}]*\\}");
+		Pattern p = Pattern.compile("\\#\\{[^}]*\\}");
 		String[] values = {};
 		Matcher m = p.matcher(query);
 		int i=0;
 		result = new Object[query.split(p.pattern()).length-1];
 		while(m.find()){
 			String method = "get";
-			String temp = m.group().replace("${", "");
+			String temp = m.group().replace("#{", "");
 			temp = temp.replace("}", "").toLowerCase();
 			method += temp.substring(0, 1).toUpperCase() + 
 					temp.substring(1);

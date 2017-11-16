@@ -25,11 +25,35 @@
     <logger name="src.Main"  level="debug" additivity="false">
         <appender-ref ref="ROLLING" />
     </logger>
- 
+ 	
     <logger name="src.Main.Child" additivity="true" />
  
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
- 
+ 	<!-- Query Loggers -->
+    <logger name="jdbc.sqlonly" additivity="false"> 
+        <level value="INFO"/> 
+        <appender-ref ref="console-infolog"/> 
+    </logger>
+    <logger name="jdbc.resultsettable" additivity="false"> 
+        <level value="INFO"/> 
+        <appender-ref ref="console"/> 
+    </logger>
+    
+    <!-- Connection, query문장 확인만 콘솔창 출력을 위해 나머지 제외 warn이상만출력 -->
+    <logger name="jdbc.resultset">
+    	<level value="warn"/>
+    	<appender-ref ref="console"/>
+    </logger>
+    <logger name="jdbc.audit">
+    	<level value="warn"/>
+    	<appender-ref ref="console"/>
+    </logger>
+    <!-- Connection, query문장 확인만 콘솔창 출력  -->
+    <!-- 스프링프레임워크 warn이상만 로그  -->
+    <logger name="org.springframework">
+    	<level value="warn"/>
+    	<appender-ref ref="console"/>
+    </logger>
 </configuration>

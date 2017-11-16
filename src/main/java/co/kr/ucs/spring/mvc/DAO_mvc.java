@@ -22,8 +22,12 @@ public class DAO_mvc {
 		HashMap<String,Object> map= new HashMap();
 		ArrayList ifStatement = new ArrayList();
 		HashMap field = new HashMap();
-		field.put("field", "SEQ");
-		field.put("value", 102);
+		field.put("field", "TITLE");
+		field.put("value", "title");
+		ifStatement.add(field);
+		field = new HashMap();
+		field.put("field", "REG_ID");
+		field.put("value", "ksm");
 		ifStatement.add(field);
 		
 		map.put("ifStatement", ifStatement);
