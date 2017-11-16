@@ -1,7 +1,6 @@
 package mvc.co.kr.ucs.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
+import mvc.co.kr.ucs.bean.PagingBean;
 import mvc.co.kr.ucs.dao.StudyDAO;
 
 @Controller
@@ -25,17 +27,29 @@ public class BoardController {
 		
 		param.put("tableName", "board");
 		ArrayList list = (ArrayList)dao.selectList("sql.common",param);
-		String[] fieldNames = {
-			"No","제목","작성자","등록일"	
-		};
-		String[] dataNames = {
-				"seq","title","reg_id","reg_date"
-		};
+		ArrayList fieldNames = new ArrayList();
+		fieldNames.add("No");
+		fieldNames.add("제목");
+		fieldNames.add("작성자");
+		fieldNames.add("등록일");
+		
+
+		ArrayList dataNames = new ArrayList();
+		dataNames.add("seq");
+		dataNames.add("title");
+		dataNames.add("reg_id");
+		dataNames.add("reg_date");
 		HashMap board = new HashMap();
-		board.put("fieldNames", Arrays.asList(fieldNames));
-		board.put("dataNames", Arrays.asList(dataNames));
+		board.put("fieldNames", fieldNames);
+		board.put("dataNames", dataNames);
 		board.put("list", list);
+		board.put("json_list", new Gson().toJson(list));
+		board.put("json_dataNames", new Gson().toJson(dataNames));
 		mav.addObject("board", board);
+		
+		PagingBean paging = new PagingBean();
+		paging.setTotalData(list.size());
+		mav.addObject("paging", new Gson().toJson(paging));
 		return mav;
 	}
 	

@@ -1,18 +1,49 @@
 package mvc.co.kr.ucs.bean;
 
-public class PagingBean {
-	private int startRowNum;
-	private int endRowNum;
-	private int total; //필수
-	private int currentPage; //필수
-	private int limit; //rowLimit 필수
-	private int pageCount; //pagetotal
-	private String searchTarget;
+/* 기본값 사용법
+ * 기본값 1~10페이징 넘버 설정
+ * 데이터 베이스 총 리스트 값 개수 totalData에 적용 후 setpaging
+ */
+public class PagingBean extends CommonQueryBean {
+	private int currentPage = 1;
+	private int startPage = 1;
+	private int endPage = 10;
+	private int pageSize = 10;
+	private int rowSize = 10;
+	private int totalPage;
+	private int totalData;
+	private int pageIdx = 1;
+	private int startRow; //db에서값 받아올때 사용 페이징 처리에서 무관
+	private int endRow; //db에서값 받아올때 사용 페이징 처리에서 무관
 	private String search;
-	private int startPage=1;
-	private int endPage;
-	
-	
+	private String searchTarget;
+	private String seq = "seq";
+	public int getRowSize() {
+		return rowSize;
+	}
+	public void setRowSize(int rowSize) {
+		this.rowSize = rowSize;
+	}
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public void setPaging() {
+		this.startRow = currentPage * rowSize-rowSize;
+		this.endRow = this.startRow + rowSize;
+		this.totalPage = (int)Math.ceil( ((double)totalData) / ((double)rowSize) );
+		this.endPage = this.startPage+this.pageSize-1;
+		if(totalPage < endPage) 
+			endPage = totalPage;//토탈페이지를 넘어가지 않도록 설정
+	}
+	public int getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
 	public int getStartPage() {
 		return startPage;
 	}
@@ -25,81 +56,60 @@ public class PagingBean {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
-	public int getPageCount() {
-		this.pageCount = (int)Math.ceil( ((double)total) / ((double)limit) );
-		return pageCount;
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public int getTotalPage() {
+		return totalPage;
+	}
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+	public int getTotalData() {
+		return totalData;
+	}
+	public void setTotalData(int totalData) {
+		this.totalData = totalData;
+	}
+	public int getPageIdx() {
+		return pageIdx;
+	}
+	public void setPageIdx(int pageIdx) {
+		this.pageIdx = pageIdx;
+	}
+	public int getStartRow() {
+		return startRow;
+	}
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
+	}
+	public int getEndRow() {
+		return endRow;
+	}
+	public void setEndRow(int endRow) {
+		this.endRow = endRow;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
 	}
 	public String getSearchTarget() {
 		return searchTarget;
 	}
-
 	public void setSearchTarget(String searchTarget) {
 		this.searchTarget = searchTarget;
 	}
-
-	public String getSearch() {
-		return search;
-	}
-
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-
-	public int getTotal() {
-		return total;
-	}
-
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-
-	public int getLimit() {
-		return limit;
-	}
-
-
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
-
-
-	public int getStartRowNum() {
-		setPaging();
-		return startRowNum;
-	}
-
-
-	public int getEndRowNum() {
-		setPaging();
-		return endRowNum;
-	}
-
-	
-	public void setPaging() {
-		this.startRowNum = currentPage * limit-limit;
-		this.endRowNum = this.startRowNum + limit;
-		this.pageCount = getPageCount();
-		this.endPage = this.startPage+this.limit-1;
-	}
 	@Override
 	public String toString() {
-		return "PagingBean [startRowNum=" + startRowNum + ", endRowNum=" + endRowNum + ", total=" + total
-				+ ", currentPage=" + currentPage + ", limit=" + limit + ", pageCount=" + pageCount + ", searchTarget="
-				+ searchTarget + ", search=" + search + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+		return "PagingBean [currentPage=" + currentPage + ", startPage=" + startPage + ", endPage=" + endPage
+				+ ", pageSize=" + pageSize + ", totalPage=" + totalPage + ", totalData=" + totalData + ", pageIdx="
+				+ pageIdx + ", startRow=" + startRow + ", endRow=" + endRow + ", search=" + search + ", searchTarget="
+				+ searchTarget + "]";
 	}
 	
 }

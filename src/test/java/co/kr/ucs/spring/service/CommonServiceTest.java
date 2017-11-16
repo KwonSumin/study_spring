@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import co.kr.ucs.spring.aop.TestService;
-import co.kr.ucs.spring.bean.BoardBean;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
-import co.kr.ucs.spring.dao.RowMapperImpl;
+import mvc.co.kr.ucs.bean.PagingBean;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,14 +47,30 @@ public class CommonServiceTest {
 	
 	@Autowired
 	private TestService testService;
+	@Autowired
+	private SqlSession sql;
+	
 	
 	@Test
 	public void test() throws Exception{
+		
+		/*
 		System.out.println("테스트");
 		System.out.println(jdbcTemplate.queryForObject("select * from board where seq = 100", new RowMapperImpl(BoardBean.class)));
 			
 		testService.print("테스트 str");
 		System.out.println("테스트 완료!!");
+		*/
+		PagingBean param = new PagingBean();
+		param.setTableName("board");
+		param.addIf("seq", 539);
+		param.addSet("title", "modify");
+		System.out.println(param);
+		param.setSearchTarget("title");
+		param.setSearch("test");
+		param.setPaging();
+		System.out.println(sql.update("common.update",param));
+		System.out.println(sql.selectList("common.list",param));
 	}
 	
 	public boolean insertService(String query,Object... args) throws SQLException {

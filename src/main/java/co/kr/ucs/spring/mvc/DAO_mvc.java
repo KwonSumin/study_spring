@@ -34,7 +34,7 @@ public class DAO_mvc {
 		map.put("tableName", "board");
 		BoardBean bean = new BoardBean();
 		bean.setSeq(102);
-		return sql.selectList("sql.common",map);
+		return sql.selectList("common.select",map);
 	}
 	public Object SelectOne(String statement,Object parameter) {
 		return sql.selectOne(statement,parameter);
