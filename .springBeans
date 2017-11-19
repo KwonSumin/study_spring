@@ -9,8 +9,12 @@
 	<configs>
 		<config>src/main/resources/config/beans.xml</config>
 		<config>src/main/resources/logback.xml</config>
-		<config>src/main/webapp/WEB-INF/spring-servlet.xml</config>
 		<config>src/main/resources/sql/sql.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/database/jdbcTemplate-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/database/sqlSession-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/database/dataSource-context.xml</config>
+		<config>src/main/webapp/WEB-INF/root-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/application-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

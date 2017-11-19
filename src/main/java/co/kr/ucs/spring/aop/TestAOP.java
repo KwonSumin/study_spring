@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 @Aspect
 public class TestAOP {
@@ -36,7 +37,7 @@ public class TestAOP {
 	@Before("execution(public * co.kr.ucs..*(..))")
 	public void before(JoinPoint jp) {
 		MethodInfo info = new MethodInfo();
-		
+		System.out.println("before");
 		if(hasNeedLog) {
 			String methodName = jp.getSignature().getName();
 			String className = jp.getSignature().getDeclaringTypeName();

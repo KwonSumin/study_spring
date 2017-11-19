@@ -8,11 +8,13 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
 
+@Service
 public class CommonService {
 	
 	//DBConnectionPoolManager 싱글톤으로 되어있어서 멤버(전역)변수로 선언해도 되는지...
