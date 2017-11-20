@@ -86,13 +86,20 @@ $.fn.setTableField = function(fm){
 */
 $.fn.setTableData = function(data){
     console.log(data);
-    for(i=0; i<=data.length-1; i++) {
-        var keys = Object.keys(data[i]);
-        var values = Object.values(data[i]);
+    console.log('setdata');
+    
+    var keys = Object.keys(data[i]);
+    var values = Object.values(data[i]);
+  /*  console.log(keys)
+    console.log(values)*/
+    for(i=0; i<=values.length-1; i++) {
+        
         for(j=0; j<=keys.length-1; j++) {
 
-            var target = $('td[data-value="'+keys[j]+'"][data-rowNum="'+(i+1)+'"]');
-            
+            var target = $('[data-value="'+(keys[j].toLowerCase())+'"][data-rowNum="'+(i)+'"]');
+           /* console.log(keys[j].toLowerCase())
+            console.log(values[j]);
+            console.log(target);*/
             target.html(values[j]);
 
         }

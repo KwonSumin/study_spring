@@ -19,7 +19,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.DBConnectionPool;
 import co.kr.ucs.spring.dao.DBConnectionPoolManager;
-import mvc.co.kr.ucs.bean.BoardBean;
+import mvc.co.kr.ucs.template.board.bean.BoardBean;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

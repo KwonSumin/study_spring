@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${value}
 	</select>
 	
-	<insert id="insert" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<insert id="insert" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 		insert into ${tableName}
 		<foreach collection="setStatement" open="(" close=")" item="item" separator=",">
 			${item.field}
@@ -22,11 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</insert>
 	
-	<delete id="delete" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<delete id="delete" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 	
 	</delete>
 	
-	<update id="update" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<update id="update" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 		update ${tableName} set
 		<foreach collection="setStatement" item="item" separator=",">
 			${item.field} = #{item.value}
@@ -39,26 +39,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 	</update>
 	
-	<select id="total" resultType="int" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<select id="total" resultType="int" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 		select count(0) from ${tableName}
-		<if test="ifStatement !=null">
+		<if test="ifStatement != null">
 			where
 			<foreach collection="ifStatement" item="item" separator="AND">
-				${item.field} = #{item.value}
+				<if test="item.option == 'like' and item.field != null">
+						${item.field} like '%${item.value}%'
+				</if>
+				<if test="item.option == null">
+					${item.field} = #{item.value}			
+				</if>
 			</foreach>
 		</if>
 	</select>
 	
-	<select id="list" resultType="HashMap" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<select id="list" resultType="HashMap" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 		
-		<if test="search==null">
+		<if test="searchTarget==null or searchTarget==''">
 			select * from
 			( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM
 			( select * from ${tableName}
 			order by ${primaryKey} desc ) A ) where RNUM <![CDATA[>]]>
 			 #{startRow} AND RNUM <![CDATA[<=]]> #{endRow}
 		</if>
-		<if test="search!=null">
+		<if test="searchTarget!=null and searchTarget!=''">
 			select * from 
 				( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM
 				(select * from ${tableName} where ${searchTarget} like '%${search}%'
@@ -66,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		
 	</select>
-	<select id="select" resultType="HashMap" parameterType="mvc.co.kr.ucs.bean.CommonQueryBean">
+	<select id="select" resultType="HashMap" parameterType="mvc.co.kr.ucs.common.bean.CommonQueryBean">
 		select * from ${tableName}
 		<if test="ifStatement != null">
 			where

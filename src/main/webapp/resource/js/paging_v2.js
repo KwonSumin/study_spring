@@ -7,6 +7,7 @@
 
 var Paging = function(){
     var util = this;
+    this.ajax = function(){};
     this.obj = {
         currentPage : 1, //현재 페이징 숫자 *
         startPage : 1, //페이징 프린트할 시작수 *
@@ -20,24 +21,26 @@ var Paging = function(){
         endRow : 9, //데이터 베이스 참조 마지막 row
         search : '', //검색어
         searchTarget : '', //검색어 타겟
-        setPaging : function(){
+    }
+    this.method = {
+		setPaging : function(){
         	this.setRow();
-    		this.totalPage = Math.ceil( (this.totalData) / (this.rowSize) );
-    		this.endPage = this.startPage+this.pageSize-1;
-    		if(this.totalPage < this.endPage) 
-    			this.endPage = this.totalPage;//토탈페이지를 넘어가지 않도록 설정
+    		util.obj.totalPage = Math.ceil( (util.obj.totalData) / (util.obj.rowSize) );
+    		util.obj.endPage = util.obj.startPage+util.obj.pageSize-1;
+    		if(util.obj.totalPage < util.obj.endPage) 
+    			util.obj.endPage = util.obj.totalPage;//토탈페이지를 넘어가지 않도록 설정
         },
         setRow : function(){
-        	this.startRow = (this.startPage-1) * this.rowSize;
-        	this.endRow = this.endPage * this.rowSize-1;
-        	if(this.totalData-1 < this.endRow) this.endRow = this.totalData-1;
+        	util.obj.startRow = (util.obj.startPage-1) * util.obj.rowSize;
+        	util.obj.endRow = util.obj.endPage * util.obj.rowSize-1;
+        	if(util.obj.totalData-1 < util.obj.endRow) util.obj.endRow = util.obj.totalData-1;
         },
         getMaxPageIdx : function(){
-            return Math.ceil(this.totalPage / this.pageSize)-1;
+            return Math.ceil(util.obj.totalPage / util.obj.pageSize)-1;
         },
         getEndPage : function(){
-            var page = this.startPage + this.pageSize -1;
-            if(page > this.totalPage) return this.totalPage;
+            var page = util.obj.startPage + util.obj.pageSize -1;
+            if(page > util.obj.totalPage) return util.obj.totalPage;
             return page;
         },
         view : function(){
@@ -77,6 +80,7 @@ var Paging = function(){
     var ajax = function(){}
     this.setAjax = function(ajaxFun){
         ajax = ajaxFun;
+        util.ajax = ajaxFun;
     }
     this.setTarget = function(set){
         target = set;
@@ -132,12 +136,13 @@ var Paging = function(){
     }
     function linke(){
         console.log(util.obj.currentPage)
-        ajax();
+        util.ajax();
         util.onLink(util.obj);
         util.onAction(util.obj);
     }
     function move(move){
         var obj = util.obj;
+        var method = util.method;
     	console.log(move);
         
         if(move=='first'){
@@ -157,11 +162,11 @@ var Paging = function(){
             if(temp == -1) {
                 obj.startPage = obj.totalPage - obj.pageSize+1;
                 obj.endPage = obj.totalPage;
-                obj.pageIdx = obj.getMaxPageIdx(); 
+                obj.pageIdx = method.getMaxPageIdx(); 
             } else {
                 obj.startPage = obj.totalPage - temp;
                 obj.endPage = obj.totalPage;
-                obj.pageIdx = obj.getMaxPageIdx();
+                obj.pageIdx = method.getMaxPageIdx();
             }
             
             
@@ -169,20 +174,20 @@ var Paging = function(){
             move = move*1;
             var movePage = obj.currentPage+move;
             var pageIdx = obj.pageIdx + move;
-            if(pageIdx > obj.getMaxPageIdx()) return false;
+            if(pageIdx > method.getMaxPageIdx()) return false;
             if( movePage < 1  && obj.currentPage==1) return false;else console.log(movePage);
             
             
             obj.pageIdx = pageIdx;
             console.log(obj)
             obj.startPage = obj.pageIdx * obj.pageSize +1;
-            obj.endPage = obj.getEndPage();
+            obj.endPage = method.getEndPage();
             obj.currentPage = obj.startPage;
-            obj.setRow();
+            method.setRow();
         }
         
-        ajax();
-        obj.view();
+        util.ajax();
+        method.view();
         util.onMove(obj);
         util.onAction(obj);
     }
