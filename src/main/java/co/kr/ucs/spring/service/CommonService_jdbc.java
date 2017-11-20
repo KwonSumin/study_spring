@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import co.kr.ucs.spring.common.PersonalMybatis;
 import co.kr.ucs.spring.common.ReflectUtil;
 import co.kr.ucs.spring.dao.RowMapperImpl;
-import co.kr.ucs.spring.mybatis.PersonalMybatis;
 
 public class CommonService_jdbc {
 	

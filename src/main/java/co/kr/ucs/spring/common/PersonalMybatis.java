@@ -1,11 +1,10 @@
-package co.kr.ucs.spring.mybatis;
+package co.kr.ucs.spring.common;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import co.kr.ucs.spring.bean.BoardBean;
-import co.kr.ucs.spring.common.ReflectUtil;
 
 public class PersonalMybatis {
 	

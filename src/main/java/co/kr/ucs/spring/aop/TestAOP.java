@@ -1,5 +1,6 @@
 package co.kr.ucs.spring.aop;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 import org.aspectj.lang.JoinPoint;
@@ -8,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
 
 @Aspect
 public class TestAOP {
@@ -30,13 +30,19 @@ public class TestAOP {
 	}
 	
 	@Pointcut("execution(public * co.kr.ucs..*(..))")
-	public void all() {
-		
-	}
+	public void all() {}
+	@Pointcut("execution(public * co.kr.ucs.spring.service..*(..))")
+	public void service() {System.out.println();}
 	
-	@Before("execution(public * co.kr.ucs..*(..))")
+	
+	//@Before("execution(public * co.kr.ucs..*(..))")
+	@Before("service()")
 	public void before(JoinPoint jp) {
+		try {
+		}catch(Exception e) {}
+		
 		MethodInfo info = new MethodInfo();
+		Annotation[] annos = this.getClass().getAnnotations();System.out.println(annos.length);
 		System.out.println("before");
 		if(hasNeedLog) {
 			String methodName = jp.getSignature().getName();
@@ -50,7 +56,7 @@ public class TestAOP {
 	
 	}
 	
-	@Around("all()")
+	@Around("service()")
 	public Object around(ProceedingJoinPoint jp) throws Exception{
 		System.out.println("around");
 		
