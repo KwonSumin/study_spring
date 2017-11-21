@@ -20,10 +20,10 @@ public class StudyDAO {
 		return sql.selectOne(statement);
 	}
 	
-	public List<Object> selectList(String statement,Object parameter) {
+	public List<?> selectList(String statement,Object parameter) {
 		return sql.selectList(statement,parameter);
 	}
-	public List<Object> selectList(String statement) {
+	public List<?> selectList(String statement) {
 		return sql.selectList(statement);
 	}
 	public int update(String statement,Object parameter) {

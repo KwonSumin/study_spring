@@ -9,8 +9,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
-	<bean id="aop" class="mvc.co.kr.ucs.aop.TestAOP"></bean>
-	<bean id="mvc_aop" class="mvc.co.kr.ucs.common.aop.TestAOP"></bean>
 	<aop:aspectj-autoproxy ></aop:aspectj-autoproxy>
 	<mvc:annotation-driven></mvc:annotation-driven>
 	

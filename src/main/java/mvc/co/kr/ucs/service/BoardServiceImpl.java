@@ -2,24 +2,35 @@ package mvc.co.kr.ucs.service;
 
 import java.util.List;
 
-import co.kr.ucs.spring.bean.PagingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import mvc.co.kr.ucs.bean.BoardBean;
+import mvc.co.kr.ucs.dao.StudyDAO;
 
+
+@Service
 public class BoardServiceImpl implements BoardService {
-
+	
+	@Autowired
+	private StudyDAO dao;
+	
 	public int insertBoard(BoardBean bean) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.insert("board.insert",bean);
 	}
 
-	public List<BoardBean> getList(PagingBean bean) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BoardBean> getList(BoardBean bean) {
+		System.out.println(bean);
+		System.out.println(bean.getCurrentPage());
+		return (List<BoardBean>)dao.selectList("board.list",bean);
 	}
 
 	public BoardBean getBoard(BoardBean bean) {
-		// TODO Auto-generated method stub
-		return null;
+		return (BoardBean)dao.SelectOne("board.getBoard", bean);
+	}
+
+	public int getTotal(BoardBean bean) {
+		return (Integer)dao.SelectOne("board.total",bean);
 	}
 	
 }

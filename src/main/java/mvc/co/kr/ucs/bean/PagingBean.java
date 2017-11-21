@@ -1,105 +1,89 @@
 package mvc.co.kr.ucs.bean;
 
 public class PagingBean {
-	private int startRowNum;
-	private int endRowNum;
-	private int total; //필수
-	private int currentPage; //필수
-	private int limit; //rowLimit 필수
-	private int pageCount; //pagetotal
-	private String searchTarget;
+	private int currentPage = 1; //현재 페이지
+	private int totalData; //토탈 데이터 개수
+	private int totalPage;
+	private int limitRow = 10; //리스트에 가져올 row갯수
+	private int limitPage = 10; //페이징할 페이지 개수
+	private int startRowNum = 0;	//데이터 가져올때필요	
+	private int endRowNum;	//데이터 가져올때필요
 	private String search;
-	private int startPage=1;
-	private int endPage;
-	
-	
-	public int getStartPage() {
-		return startPage;
+	private String searchTarget;
+	public void pagingSet() {
+		this.startRowNum = (currentPage - 1) * limitRow;
+		this.endRowNum = startRowNum + limitRow;
+		if(totalData < endRowNum) endRowNum = totalData;
 	}
-	public void setStartPage(int startPage) {
-		this.startPage = startPage;
-	}
-	public int getEndPage() {
-		return endPage;
-	}
-	public void setEndPage(int endPage) {
-		this.endPage = endPage;
-	}
-	public int getPageCount() {
-		this.pageCount = (int)Math.ceil( ((double)total) / ((double)limit) );
-		return pageCount;
-	}
-	public String getSearchTarget() {
-		return searchTarget;
+	public int getTotalPage() {
+		return totalPage;
 	}
 
-	public void setSearchTarget(String searchTarget) {
-		this.searchTarget = searchTarget;
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
 	}
 
 	public String getSearch() {
 		return search;
 	}
-
-
 	public void setSearch(String search) {
 		this.search = search;
 	}
-
-
-	public int getTotal() {
-		return total;
+	public String getSearchType() {
+		return searchTarget;
 	}
-
-
-	public void setTotal(int total) {
-		this.total = total;
+	public void setSearchType(String searchTarget) {
+		this.searchTarget = searchTarget;
 	}
-
-
 	public int getCurrentPage() {
 		return currentPage;
 	}
-
-
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-
-
-	public int getLimit() {
-		return limit;
+	public int getTotalData() {
+		return totalData;
 	}
-
-
-	public void setLimit(int limit) {
-		this.limit = limit;
+	public void setTotalData(int totalData) {
+		this.totalData = totalData;
+		pagingSet();
 	}
-
-
+	public int getLimitRow() {
+		return limitRow;
+	}
+	public void setLimitRow(int limitRow) {
+		this.limitRow = limitRow;
+	}
+	public int getLimitPage() {
+		return limitPage;
+	}
+	public void setLimitPage(int limitPage) {
+		this.limitPage = limitPage;
+	}
 	public int getStartRowNum() {
-		setPaging();
 		return startRowNum;
 	}
-
-
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
+	}
 	public int getEndRowNum() {
-		setPaging();
 		return endRowNum;
 	}
-
-	
-	public void setPaging() {
-		this.startRowNum = currentPage * limit-limit;
-		this.endRowNum = this.startRowNum + limit;
-		this.pageCount = getPageCount();
-		this.endPage = this.startPage+this.limit-1;
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
+	public String getSearchTarget() {
+		return searchTarget;
+	}
+	public void setSearchTarget(String searchTarget) {
+		this.searchTarget = searchTarget;
 	}
 	@Override
 	public String toString() {
-		return "PagingBean [startRowNum=" + startRowNum + ", endRowNum=" + endRowNum + ", total=" + total
-				+ ", currentPage=" + currentPage + ", limit=" + limit + ", pageCount=" + pageCount + ", searchTarget="
-				+ searchTarget + ", search=" + search + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+		return "PagingBean [currentPage=" + currentPage + ", totalData=" + totalData + ", limitRow=" + limitRow
+				+ ", limitPage=" + limitPage + ", startRowNum=" + startRowNum + ", endRowNum=" + endRowNum + ", search="
+				+ search + ", searchTarget=" + searchTarget + "]";
 	}
+	
 	
 }
