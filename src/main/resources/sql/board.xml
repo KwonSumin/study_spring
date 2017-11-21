@@ -12,12 +12,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(seq) from board 
 	</select>
 	
-	<insert id="insert">
+	<insert id="insert" parameterType="mvc.co.kr.ucs.bean.BoardBean">
 		insert into board(seq,title,reg_id,contents)
 			 values( (<include refid="getMaxSeq"/> ),#{title},#{reg_id},#{contents})
 	</insert>
 	
-	<select id="list">
+	<select id="list" parameterType="mvc.co.kr.ucs.bean.BoardBean" resultType="mvc.co.kr.ucs.bean.BoardBean">
 	<if test="searchTarget == null or searchTarget == ''">
 		select * from
 		 ( select A.*,ROWNUM AS RNUM, count(*) over() AS TOTCNT FROM
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</if>
 	</select>
 	
-	<select id="getBoard">
+	<select id="getBoard" parameterType="mvc.co.kr.ucs.bean.BoardBean" resultType="mvc.co.kr.ucs.bean.BoardBean">
 		select * from board where
 			seq = #{seq}
 	</select>
