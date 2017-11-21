@@ -115,7 +115,7 @@ table td:nth-child(1) {
 					</div>
 					<input type="submit" class="btn" value="검색">
 					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/board/write' ">글쓰기</button>
+						onclick="location.href='${pageContext.request.contextPath}/mvc/board/write' ">글쓰기</button>
 				<!-- </form> -->
 			</div>
 			<table border="1px">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,7 +37,7 @@
 </head>
 <body>
 	<div class="container">
-		<form class="addWrapper" method="POST" action="${pageContext.request.contextPath}/board/write.do">
+		<form class="addWrapper" method="POST" action="${PageContext.request.contextPath}/mvc/board/insert.do">
 			<h4>게시판 입력</h4>
 			<input type="hidden" name="reg_id" value="${sessionScope.id }" />
 			<table border="1px">

@@ -1,11 +1,13 @@
 package mvc.co.kr.ucs.controller;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,6 @@ public class MvcBoardCtrl {
 	@RequestMapping(value="/mvc/board/list.ajax",method=RequestMethod.POST)
 	public void jsonList(ModelAndView mav,BoardBean bean,PagingBean paging,HttpServletResponse response)
 		throws Exception{
-		System.out.println(paging);
 		paging.setTotalData(svc.getTotal(bean));
 		bean.setTotalData(paging.getTotalData());
 		response.setCharacterEncoding("utf-8");
@@ -58,9 +59,6 @@ public class MvcBoardCtrl {
 	
 	@RequestMapping(value="/mvc/board/read",method=RequestMethod.GET)
 	public ModelAndView readBoard(ModelAndView mav,BoardBean bean) {
-		System.out.println(bean);
-		System.out.println(bean.getCurrentPage());
-		System.out.println(bean.getSearch());
 		mav.setViewName("/board/boardRead");
 		BoardBean board = new BoardBean();
 		board = svc.getBoard(bean);
@@ -71,9 +69,32 @@ public class MvcBoardCtrl {
 		return mav;
 	}
 	
-
-	@RequestMapping(value="/mvc/board/insert.ajax",method=RequestMethod.GET)
-	public void insert(ModelAndView mav,BoardBean bean) {
-		
+	@RequestMapping(value="/mvc/board/write")
+	public ModelAndView write(HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		return new ModelAndView("/board/boardWrite");
+	}
+	
+	@RequestMapping(value="/mvc/board/insert.do",method=RequestMethod.POST)
+	public void insert(ModelAndView mav,BoardBean bean,
+			HttpServletRequest request,HttpServletResponse response) 
+		throws Exception{
+		Writer out = getWriter(response);
+		out.write("<script>");
+		if(1>=svc.insertBoard(bean)) {
+			out.write("alert('성공하였습니다.');");
+			out.write("location.href='/mvc/board/list\'");
+		} else {
+			out.write("alert('실패하였습니다.');");
+		}
+		out.write("</script>");
+		out.flush();
+	}
+	
+	private Writer getWriter(HttpServletResponse response) throws IOException {
+		response.setHeader("Content-Type", "text/html");
+		response.setContentType("text/html;charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		return response.getWriter();
 	}
 }
