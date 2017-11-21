@@ -235,6 +235,7 @@ table td:nth-child(1) {
 			});
 			
 			function search(){
+				util.obj.currentPage = 1;
 				var search = $('input[name="search"]').val();
 				var searchTarget = $('select[name="searchTarget"]').val();
 				console.log(searchTarget + ' : ' + search);
