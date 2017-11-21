@@ -20,8 +20,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	public List<BoardBean> getList(BoardBean bean) {
-		System.out.println(bean);
-		System.out.println(bean.getCurrentPage());
 		return (List<BoardBean>)dao.selectList("board.list",bean);
 	}
 
