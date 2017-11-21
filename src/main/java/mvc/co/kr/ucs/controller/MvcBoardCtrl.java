@@ -58,8 +58,16 @@ public class MvcBoardCtrl {
 	
 	@RequestMapping(value="/mvc/board/read",method=RequestMethod.GET)
 	public ModelAndView readBoard(ModelAndView mav,BoardBean bean) {
+		System.out.println(bean);
+		System.out.println(bean.getCurrentPage());
+		System.out.println(bean.getSearch());
 		mav.setViewName("/board/boardRead");
-		mav.addObject("bean", svc.getBoard(bean));
+		BoardBean board = new BoardBean();
+		board = svc.getBoard(bean);
+		board.setCurrentPage(bean.getCurrentPage());
+		board.setSearch(bean.getSearch());
+		board.setSearchTarget(bean.getSearchTarget());
+		mav.addObject("bean", board);
 		return mav;
 	}
 	

@@ -128,14 +128,12 @@ table td:nth-child(1) {
 
 				<!-- TODO : table list  -->
 
-				<c:forEach items="${list }" var="item">
+				<c:forEach end="9" begin="0" step="1">
 					<tr data-value="row">
-						<td data-value="seq">${item.getSeq() }</td>
-						<td data-value="title"><a
-							href="${pageContext.request.contextPath}/mvc/board/read?seq=${item.getSeq()}">${item.getTitle() }</a>
-						</td>
-						<td data-value="reg_id">${item.getReg_id() }</td>
-						<td data-value="reg_date">${item.getReg_date() }</td>
+						<td data-value="seq"></td>
+						<td data-value="title"></td>
+						<td data-value="reg_id"></td>
+						<td data-value="reg_date"></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -148,6 +146,7 @@ table td:nth-child(1) {
 		</div>
 	</div>
 	<script>
+	
 	var _rootPath = '${pageContext.request.contextPath}';
 	var Paging = function(){
 		//설정값
@@ -207,7 +206,7 @@ table td:nth-child(1) {
 			if(obj.endPage > obj.totalPage) obj.endPage = obj.totalPage;
 			if(obj.totalData < obj.endRowNum) obj.endRowNum = obj.totalData-1;
 		}
-		
+		this.start = function(){start()};
 		
 		
 		
@@ -249,8 +248,9 @@ table td:nth-child(1) {
 			}
 		}
 		function renderUi(){
-			console.log('test')
-			console.log(target)
+			util.setObj(util.obj);
+			console.log('test');
+			console.log(util.obj);
 			target.html('');
 			var moveDiv = getDiv(ui.defaultCss.small);
 			var first = moveDiv.clone().html('<<');
@@ -348,12 +348,15 @@ table td:nth-child(1) {
 		}
 		
 		function renderList(){
+			console.log('list')
 			$('tr[data-value="row"]').each(function(idx){
 				var dataField;
 				$(this).find('td').show();
 				for(i=0;i<=fields.length-1 && idx <= util.list.length-1;i++) {
 					var data = util.list[idx][fields[i]];
-					var readURL = _rootPath + "/mvc/board/read?seq=" + idx
+					var searchQuery = "&currentPage="+util.obj.currentPage+
+						"&searchTarget="+util.obj.searchTarget+"&search="+util.obj.search;
+					var readURL = _rootPath + "/mvc/board/read?seq=" + util.list[idx]['seq'] + searchQuery;
 					if(fields[i]=='title') {
 						data = '<a href="'+readURL+'">'+
 									util.list[idx][fields[i]]+
@@ -378,12 +381,14 @@ table td:nth-child(1) {
 		}
 		
 		(function(){
-			renderUi();
+			
 			clickListener_search();
 		})();
 	}
 	var _paging = new Paging();
 	_paging.setObj(JSON.parse('${json_paging}'));
+	_paging.list = JSON.parse('${json_list}');
+	_paging.start();
 </script>
 
 

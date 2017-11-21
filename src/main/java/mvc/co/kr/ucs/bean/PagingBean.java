@@ -1,5 +1,7 @@
 package mvc.co.kr.ucs.bean;
 
+import com.google.gson.Gson;
+
 public class PagingBean {
 	private int currentPage = 1; //현재 페이지
 	private int totalData; //토탈 데이터 개수
@@ -77,6 +79,9 @@ public class PagingBean {
 	}
 	public void setSearchTarget(String searchTarget) {
 		this.searchTarget = searchTarget;
+	}
+	public String getJson() {
+		return new Gson().toJson(this);
 	}
 	@Override
 	public String toString() {

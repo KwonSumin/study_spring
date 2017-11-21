@@ -38,9 +38,25 @@
 				</tr>			
 			</table>
 			<div class="foot">
-					<button type="button" class="btn" onclick="history.back()">취소</button>
+					<button type="button" class="btn" onclick="back();">취소</button>
 			</div>
 		</form>
 	</div>
+<script>
+	var board = JSON.parse('${bean.getJson()}');
+	function back(){
+		location.href="${pageContext.request.contextPath}/mvc/board/list?currentPage="+
+				checkEmpty(board.currentPage)
+				+
+				"&searchTarget=" + 
+				checkEmpty(board.searchTarget)
+				+ "&search=" + checkEmpty(board.search);
+		
+		function checkEmpty(data){
+			if(data == 'undefined')return '';
+			return data;
+		}
+	}
+</script>
 </body>
 </html>

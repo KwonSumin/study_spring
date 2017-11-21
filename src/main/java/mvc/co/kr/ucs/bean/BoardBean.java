@@ -1,5 +1,7 @@
 package mvc.co.kr.ucs.bean;
 
+import com.google.gson.Gson;
+
 public class BoardBean extends PagingBean {
 	private Integer seq;
 	private String title;
@@ -50,6 +52,10 @@ public class BoardBean extends PagingBean {
 	public void setMod_date(String mod_date) {
 		this.mod_date = mod_date;
 	}
+	public String getJson() {
+		return new Gson().toJson(this);
+	}
+	
 	@Override
 	public String toString() {
 		return "BoardBean [seq=" + seq + ", title=" + title + ", contents=" + contents + ", reg_id=" + reg_id
