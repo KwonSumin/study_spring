@@ -1,14 +1,16 @@
-package mvc.co.kr.ucs.common.aop;
+package mvc.co.kr.ucs.aop;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
-//@Aspect
+@Aspect
 public class TestAOP {
 	
 	private boolean hasNeedLog = true;
@@ -27,15 +29,21 @@ public class TestAOP {
 		System.out.println("aop생성");
 	}
 	
-	@Pointcut("execution(public * mvc.co.kr.ucs..*(..))")
-	public void all() {
-		
-	}
+	@Pointcut("execution(public * co.kr.ucs..*(..))")
+	public void all() {}
+	@Pointcut("execution(public * co.kr.ucs.spring.service..*(..))")
+	public void service() {System.out.println();}
 	
-	@Before("execution(public * mvc.co.kr.ucs.dao..*(..))")
+	
+	//@Before("execution(public * co.kr.ucs..*(..))")
+	@Before("service()")
 	public void before(JoinPoint jp) {
-		MethodInfo info = new MethodInfo();
+		try {
+		}catch(Exception e) {}
 		
+		MethodInfo info = new MethodInfo();
+		Annotation[] annos = this.getClass().getAnnotations();System.out.println(annos.length);
+		System.out.println("before");
 		if(hasNeedLog) {
 			String methodName = jp.getSignature().getName();
 			String className = jp.getSignature().getDeclaringTypeName();
@@ -48,7 +56,7 @@ public class TestAOP {
 	
 	}
 	
-	@Around("all()")
+	@Around("service()")
 	public Object around(ProceedingJoinPoint jp) throws Exception{
 		System.out.println("around");
 		
