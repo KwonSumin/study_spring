@@ -100,8 +100,8 @@ table td:nth-child(1) {
 		<div class="listWrapper">
 			<h4>게시판 목록</h4>
 			<div class="head">
-				<form method="get"
-					action="${pageContext.request.contextPath}/board/list">
+				<%-- <form method="get"
+					action="${pageContext.request.contextPath}/board/list"> --%>
 					<div class="fieldWrapper">
 						<div class="field">
 							<select name="searchTarget">
@@ -116,7 +116,7 @@ table td:nth-child(1) {
 					<input type="submit" class="btn" value="검색">
 					<button type="button"
 						onclick="location.href='${pageContext.request.contextPath}/board/write' ">글쓰기</button>
-				</form>
+				<!-- </form> -->
 			</div>
 			<table border="1px">
 				<tr>
@@ -153,7 +153,10 @@ table td:nth-child(1) {
 		//설정값
 		var util = this;
 		var target = $('div.pagingBody');
-		var _pagingBody
+		var _pagingBody;
+		var searchBtn = $('input[type="submit"]');
+		
+		
 		//설정값
 		var url = {
 			ajax : _rootPath + "/mvc/board/list.ajax",
@@ -205,6 +208,9 @@ table td:nth-child(1) {
 			if(obj.totalData < obj.endRowNum) obj.endRowNum = obj.totalData-1;
 		}
 		
+		
+		
+		
 		//private functions
 		function fetchData(url,sucFun){
 			console.log(util.obj);
@@ -222,6 +228,25 @@ table td:nth-child(1) {
 		    });
 		}
 		
+		function clickListener_search(){
+			
+			searchBtn.click(function(){
+				search();
+			});
+			
+			function search(){
+				var search = $('input[name="search"]').val();
+				var searchTarget = $('select[name="searchTarget"]').val();
+				console.log(searchTarget + ' : ' + search);
+				util.obj.search = search;
+				util.obj.searchTarget = searchTarget;
+				fetchData(url.ajax,function(data){
+					util.setObj(data.paging);
+					util.list = data.list;
+					start();
+				});
+			}
+		}
 		function renderUi(){
 			console.log('test')
 			console.log(target)
@@ -353,10 +378,11 @@ table td:nth-child(1) {
 		
 		(function(){
 			renderUi();
+			clickListener_search();
 		})();
 	}
 	var _paging = new Paging();
-	_paging.setObj(JSON.parse('${json_paging}'))
+	_paging.setObj(JSON.parse('${json_paging}'));
 </script>
 
 

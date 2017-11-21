@@ -30,7 +30,7 @@ public class MvcBoardCtrl {
 	public ModelAndView list(ModelAndView mav,BoardBean bean,PagingBean paging) {
 		mav.setViewName("/board/boardList");
 		paging.setTotalData(svc.getTotal(bean));
-		bean.setTotalData(svc.getTotal(bean));
+		bean.setTotalData(paging.getTotalData());
 		ArrayList list = (ArrayList)svc.getList(bean);
 		mav.addObject("list", list);
 		mav.addObject("json_list", new Gson().toJson(list));
@@ -42,6 +42,9 @@ public class MvcBoardCtrl {
 	@RequestMapping(value="/mvc/board/list.ajax",method=RequestMethod.POST)
 	public void jsonList(ModelAndView mav,BoardBean bean,PagingBean paging,HttpServletResponse response)
 		throws Exception{
+		System.out.println(paging);
+		paging.setTotalData(svc.getTotal(bean));
+		bean.setTotalData(paging.getTotalData());
 		response.setCharacterEncoding("utf-8");
 		Writer out = response.getWriter();
 		List list = svc.getList(bean);

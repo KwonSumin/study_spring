@@ -10,6 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="total" resultType="int">
 		select count(seq) from board 
+		<if test="searchTarget != null and searchTarget != ''">
+			where ${searchTarget} like '%${search}%'
+		</if>
 	</select>
 	
 	<insert id="insert" parameterType="mvc.co.kr.ucs.bean.BoardBean">
