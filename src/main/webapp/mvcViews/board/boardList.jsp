@@ -283,8 +283,13 @@ table td:nth-child(1) {
 				
 				for(i=util.obj.startPage;i<=util.obj.endPage;i++){
 					var num = getDiv(ui.defaultCss.number).html(i);
+					if(i==util.obj.currentPage){
+						num.attr('class','currentPage');
+					}else{
+						num.attr('class','pageNum');
+						clickListener_link();
+					}
 					pagingBody.append(num);
-					clickListener_link();
 				}
 				function clickListener_link(){
 					num.click(function(){
@@ -314,11 +319,14 @@ table td:nth-child(1) {
 			} else if(move == 'back') {
 				if(!isNotFirst) return false;
 				obj.currentPage -= obj.limitPage;
+				if(obj.currentPage < 1)
+					obj.currentPage = 1;
 				
 			} else if(move == 'forward') {
 				if(!isNotLast) return false;
 				obj.currentPage += obj.limitPage;
-				
+				if(obj.currentPage > getTotalPage())
+					obj.currentPage = getTotalPage();
 			} else if(move == 'last') {
 				if(!isNotLast) return false;	
 				obj.currentPage = getTotalPage();
