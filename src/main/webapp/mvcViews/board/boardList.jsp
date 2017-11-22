@@ -125,17 +125,8 @@ table td:nth-child(1) {
 					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
-
 				<!-- TODO : table list  -->
-
-				<c:forEach end="9" begin="0" step="1">
-					<tr data-value="row">
-						<td data-value="seq"></td>
-						<td data-value="title"></td>
-						<td data-value="reg_id"></td>
-						<td data-value="reg_date"></td>
-					</tr>
-				</c:forEach>
+				
 			</table>
 			<div class="foot">
 				<div class="paging">
@@ -148,13 +139,13 @@ table td:nth-child(1) {
 	<script>
 	
 	var _rootPath = '${pageContext.request.contextPath}';
-	var Paging = function(){
+	var Paging = function(list){
 		//설정값
 		var util = this;
 		var target = $('div.pagingBody');
 		var _pagingBody;
 		var searchBtn = $('input[type="submit"]');
-		
+		var table = $('table');
 		
 		//설정값
 		var url = {
@@ -181,7 +172,7 @@ table td:nth-child(1) {
 				}
 			}
 		}
-		this.list = {};
+		this.list = list;
 		this.obj = {
 			currentPage : 1,
 			startPage : 1,
@@ -348,25 +339,28 @@ table td:nth-child(1) {
 		}
 		
 		function renderList(){
-			console.log('list')
-			$('tr[data-value="row"]').each(function(idx){
-				var dataField;
-				$(this).find('td').show();
-				for(i=0;i<=fields.length-1 && idx <= util.list.length-1;i++) {
-					var data = util.list[idx][fields[i]];
-					var searchQuery = "&currentPage="+util.obj.currentPage+
-						"&searchTarget="+util.obj.searchTarget+"&search="+util.obj.search;
-					var readURL = _rootPath + "/mvc/board/read?seq=" + util.list[idx]['seq'] + searchQuery;
-					if(fields[i]=='title') {
-						data = '<a href="'+readURL+'">'+
-									util.list[idx][fields[i]]+
-							   '</a>';
+			console.log('list');
+			table.find('tr[data-value="row"]').remove();
+			for(i=1;i<=util.obj.limitRow;i++) {
+				var searchQuery = '&search='+isEmpty(util.obj.search)+'&searchTarget='
+					+isEmpty(util.obj.searchTarget) + '&currentPage='+util.obj.currentPage;
+				var readURL = _rootPath+"/mvc/board/read?seq="+util.list[i-1]['seq']+searchQuery;
+				var $tr = $('<tr data-value="row">').clone();
+				for(var field of fields) {
+					var data = util.list[i-1][field];
+					var $td = $('<td data-value="'+field+'">');
+					if(field=='title') {
+						data = '<a href="'+readURL+'">'+data+'</a>';
 					}
-					dataField = $(this).find('[data-value="'+fields[i]+'"]');
-					dataField.html(data);
+					$td.html(data);
+					$tr.append($td);	
 				}
-				if(idx > util.list.length-1) $(this).find('td').hide();
-			});
+				table.append($tr);
+			}
+			function isEmpty(data){
+				if(data==null) return '';
+				return data;
+			}
 		}
 		
 		function getDiv(css){
@@ -385,7 +379,7 @@ table td:nth-child(1) {
 			clickListener_search();
 		})();
 	}
-	var _paging = new Paging();
+	var _paging = new Paging(JSON.parse('${json_list}'));
 	_paging.setObj(JSON.parse('${json_paging}'));
 	_paging.list = JSON.parse('${json_list}');
 	_paging.start();
