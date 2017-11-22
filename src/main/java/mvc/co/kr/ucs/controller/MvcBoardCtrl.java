@@ -86,6 +86,7 @@ public class MvcBoardCtrl {
 			out.write("location.href='/mvc/board/list\'");
 		} else {
 			out.write("alert('실패하였습니다.');");
+			out.write("history.back();");
 		}
 		out.write("</script>");
 		out.flush();

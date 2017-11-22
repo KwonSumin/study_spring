@@ -118,7 +118,7 @@ table td:nth-child(1) {
 						onclick="location.href='${pageContext.request.contextPath}/mvc/board/write' ">글쓰기</button>
 				<!-- </form> -->
 			</div>
-			<table border="1px">
+			<table border="1px" id="table">
 				<tr>
 					<th>글번호</th>
 					<th>제목</th>
