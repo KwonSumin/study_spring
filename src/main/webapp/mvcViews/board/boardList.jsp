@@ -349,10 +349,11 @@ table td:nth-child(1) {
 		function renderList(){
 			console.log('list');
 			table.find('tr[data-value="row"]').remove();
-			for(i=1;i<=util.obj.limitRow;i++) {
+			for(i=1;i<=util.list.length;i++) {
 				var searchQuery = '&search='+isEmpty(util.obj.search)+'&searchTarget='
 					+isEmpty(util.obj.searchTarget) + '&currentPage='+util.obj.currentPage;
 				var readURL = _rootPath+"/mvc/board/read?seq="+util.list[i-1]['seq']+searchQuery;
+				
 				var $tr = $('<tr data-value="row">').clone();
 				for(var field of fields) {
 					var data = util.list[i-1][field];
