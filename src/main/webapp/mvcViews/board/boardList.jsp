@@ -45,12 +45,6 @@
 }
 
 
-.tableWrapper {
-	border : 1px solid black;
-	width : 400px;
-	height : 700px;
-}
-
 .overlay{
 	margin : 0;padding:0;
 	background-color: #ddd;
@@ -65,7 +59,9 @@
     display:none;
 }
 
-
+.currentPage {
+	background-color : green;
+}
 
 div.listWrapper {
 	width: 450px;
