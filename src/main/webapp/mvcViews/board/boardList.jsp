@@ -129,6 +129,7 @@ table td:nth-child(1) {
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/resource/js/table.js"></script>
 <script src="<%=request.getContextPath()%>/resource/js/paging.js"></script>
+<script src="<%=request.getContextPath()%>/resource/js/Aspect.js"></script>
 </head>
 <body>
 
@@ -187,6 +188,9 @@ table td:nth-child(1) {
 	
 	var _rootPath = '${pageContext.request.contextPath}';
 	var Paging = function(list){
+		
+		
+		
 		//설정값
 		var util = this;
 		var target = $('div.pagingBody');
@@ -443,6 +447,12 @@ table td:nth-child(1) {
 		})();
 	}
 	var _paging = new Paging(JSON.parse('${json_list}'));
+	var aop = new Aspect();
+	var logger = new Aspect_logger()
+	aop.setTarget(_paging);
+	aop.pointcut('.*','before',function(method,...args){
+		logger.defaultBefore(method,...args);
+	})
 	_paging.setObj(JSON.parse('${json_paging}'));
 	_paging.list = JSON.parse('${json_list}');
 	_paging.start();
