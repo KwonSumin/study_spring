@@ -18,6 +18,55 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
+
+
+
+
+.spin {
+  position: absolute;
+  top: calc(50% - 35px);
+  left: calc(50% - 35px);
+  right: 0;
+  bottom: 0;
+  vertical-align: middle;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  border:dashed 5px blue;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 2.5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes spin {
+  from   {  -webkit-transform: rotate(0deg); }
+  to   {  -webkit-transform: rotate(360deg); }
+}
+
+
+.tableWrapper {
+	border : 1px solid black;
+	width : 400px;
+	height : 700px;
+}
+
+.overlay{
+	margin : 0;padding:0;
+	background-color: #ddd;
+	opacity : 0.5;
+	height : 100%;
+	width : 100%;
+	position : fixed;
+	top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display:none;
+}
+
+
+
 div.listWrapper {
 	width: 450px;
 	margin: 0 auto;
@@ -95,8 +144,9 @@ table td:nth-child(1) {
 			paging.setSearch("");
 		}
 	%>
-
+	<div class="overlay"></div>
 	<div class="container">
+	
 		<div class="listWrapper">
 			<h4>게시판 목록</h4>
 			<div class="head">
@@ -136,6 +186,7 @@ table td:nth-child(1) {
 			</div>
 		</div>
 	</div>
+	
 	<script>
 	
 	var _rootPath = '${pageContext.request.contextPath}';
@@ -203,6 +254,9 @@ table td:nth-child(1) {
 		
 		//private functions
 		function fetchData(url,sucFun){
+			var loading = $('<div class="spin">');
+			$('body').append(loading);
+			$('.overlay').show();
 			console.log(util.obj);
 			$.ajax({
 		        url:url,
@@ -211,9 +265,13 @@ table td:nth-child(1) {
 		        success:function(data){
 		        	data = JSON.parse(data);
 		        	sucFun(data);
+		        	$('.overlay').hide();
+		        	loading.remove();
 		        },
 		        error:function(data){
-		        	console.log(data)
+		        	console.log(data);
+		        	$('.overlay').hide();
+		        	loading.remove();
 		        }
 		    });
 		}
@@ -392,6 +450,9 @@ table td:nth-child(1) {
 	_paging.setObj(JSON.parse('${json_paging}'));
 	_paging.list = JSON.parse('${json_list}');
 	_paging.start();
+	
+	
+	
 </script>
 
 
