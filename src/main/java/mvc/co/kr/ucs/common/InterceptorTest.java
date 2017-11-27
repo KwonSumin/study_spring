@@ -26,7 +26,8 @@ public class InterceptorTest extends HandlerInterceptorAdapter{
 		
 			Writer out = getWriter(response);
 			out.write("<script>");
-			out.write("alert()");
+			out.write("alert('로그인후 사용 가능합니다.');");
+			out.write("location.href='/mvc/login/login';");
 			out.write("</script>");
 			
 			return false;
