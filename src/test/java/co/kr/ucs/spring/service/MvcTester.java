@@ -26,6 +26,8 @@ public class MvcTester {
 		bean.setTitle("제목123");
 		bean.setContents("content123");
 		bean.setReg_id("tester");
-		System.out.println(svc.insertBoard(bean));;
+		try {
+			System.out.println(svc.insertBoard(bean));;
+		}catch(Exception e) {}
 	}
 }

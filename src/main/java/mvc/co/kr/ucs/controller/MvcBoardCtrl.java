@@ -92,6 +92,12 @@ public class MvcBoardCtrl {
 		out.flush();
 	}
 	
+	@RequestMapping(value="/mvc/board/error")
+	public String errorPage() {
+		return "/board/error";
+	}
+	
+	
 	private Writer getWriter(HttpServletResponse response) throws IOException {
 		response.setHeader("Content-Type", "text/html");
 		response.setContentType("text/html;charset=UTF-8");

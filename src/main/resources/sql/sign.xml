@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sign">
+	<select id="login" resultType="int" parameterType="mvc.co.kr.ucs.bean.SignBean" >
+		select count(user_id) from cm_user
+		 where user_id = #{user_id} AND
+		  user_pw = #{user_pw}
+	</select>	
+	<insert id="join" parameterType="mvc.co.kr.ucs.bean.SignBean">
+		insert into cm_user(user_id,user_pw,user_nm,email)
+			value(#{user_id},#{user_pw},#{user_nm},#{email})
+	</insert>
+</mapper>

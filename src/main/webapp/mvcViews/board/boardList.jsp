@@ -447,7 +447,7 @@ table td:nth-child(1) {
 	}
 	var _paging = new Paging(JSON.parse('${json_list}'));
 	var aop = new Aspect();
-	var logger = new Aspect_logger()
+	var logger = new Aspect_logger();
 	aop.setTarget(_paging);
 	 
 	aop.pointcut('.*','before',function(method,...args){

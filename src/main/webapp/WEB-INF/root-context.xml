@@ -15,5 +15,13 @@
 	    <property name="prefix" value="/mvcViews/" />
 	    <property name="suffix" value=".jsp" />
 	</bean>
-	
+	<bean id="interceptor" class="mvc.co.kr.ucs.common.InterceptorTest"/>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/mvc/board/list"/>
+			<ref bean="interceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<context:component-scan base-package="mvc.co.kr.ucs"/>
+	<mvc:annotation-driven/>
 </beans>

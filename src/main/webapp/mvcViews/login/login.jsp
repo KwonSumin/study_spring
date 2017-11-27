@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  
 
@@ -42,7 +42,7 @@
 		
 		<c:if test="${ sessionScope.id == null}">
 		
-			<form id="loginForm" class="loginWrapper" method="post" action="<%=request.getContextPath() %>/sign/signin">
+			<form id="loginForm" class="loginWrapper" method="post" action="<%=request.getContextPath() %>/mvc/login/login.do">
 				<input type="hidden" name="process" value="signin"/>
 				<h4>로그인</h4>
 				<div>
@@ -59,7 +59,7 @@
 		
 		<c:if test="${ sessionScope.id != null}">
 			<p>${sessionScope.id }님 환영 합니다.</p>
-			<a href="signProcess.jsp?process=logout">로그아웃</a>
+			<a href="<%=request.getContextPath() %>/mvc/login/logout.do">로그아웃</a>
 		</c:if>
 		
 		
