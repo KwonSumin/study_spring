@@ -89,6 +89,12 @@ var Aspect = function(){
             var method = target[methodName];
             method.method = run;
             beforeFun.prototype.meethod = method;
+            
+            /*
+             * Function.call(target,...args) 사용이유
+             * 내부적 기능상 this가 window를 가르키는 
+             * 문제가 발생
+             */
             beforeFun.call(target,method,...arguments);
             return run.call(target,...arguments);
         };
