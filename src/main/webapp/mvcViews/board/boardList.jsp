@@ -238,15 +238,16 @@ table td:nth-child(1) {
 			endRowNum : 0
 		}
 		var fields = ["seq","title","reg_id","reg_date"];
-		this.setObj = function(obj){
-			this.obj = obj;
+		this.setObj = function(param){
+			this.obj = param;
+			var obj = this.obj;
 			this.obj.pageIdx = Math.floor( (obj.currentPage-1) / obj.limitPage );
 			this.obj.totalPage = Math.ceil(obj.totalData / obj.limitRow);
 			this.obj.startPage = obj.pageIdx * obj.limitPage + 1;
 			this.obj.endPage = obj.startPage + obj.limitPage - 1;
-			console.log(obj);
 			if(obj.endPage > obj.totalPage) obj.endPage = obj.totalPage;
 			if(obj.totalData < obj.endRowNum) obj.endRowNum = obj.totalData-1;
+			return obj;
 		}
 		this.start = function(){start()};
 		
@@ -255,9 +256,9 @@ table td:nth-child(1) {
 		//private functions
 		function fetchData(url,sucFun){
 			var loading = $('<div class="spin">');
+			
 			$('body').append(loading);
 			$('.overlay').show();
-			console.log(util.obj);
 			$.ajax({
 		        url:url,
 		        type:'POST',
@@ -297,9 +298,7 @@ table td:nth-child(1) {
 			}
 		}
 		function renderUi(){
-			util.setObj(util.obj);
-			console.log('test');
-			console.log(util.obj);
+			//util.setObj(util.obj);
 			target.html('');
 			var moveDiv = getDiv(ui.defaultCss.small);
 			var first = moveDiv.clone().html('<<');
@@ -450,10 +449,15 @@ table td:nth-child(1) {
 	var aop = new Aspect();
 	var logger = new Aspect_logger()
 	aop.setTarget(_paging);
+	 
 	aop.pointcut('.*','before',function(method,...args){
 		logger.defaultBefore(method,...args);
-	})
-	_paging.setObj(JSON.parse('${json_paging}'));
+	});
+	aop.pointcut('.*','afterReturn',function(ret,...args){
+		console.log('리턴값 : ', ret);
+	});
+	  
+	_paging.setObj(  (paging = JSON.parse('${json_paging}')) );
 	_paging.list = JSON.parse('${json_list}');
 	_paging.start();
 	

@@ -1,11 +1,11 @@
-﻿/*
+/*
 *   @author : sumin
 *   @version : 1.0.0
 *   @since : 2017. 11. 24
 *   @discription :  
-*       java AOP 
-*   @needLib : jqueryk
-*   한글테스트
+*       자바에서 aop랑 비슷한형태의 객체.
+*  
+*   
 */
 
 
@@ -13,16 +13,36 @@ var Aspect = function(){
     var aop = this;
     var target = window;
     this.setTarget = function(param){target = param}
+    
+    /* var aop = new Aspect();
+     * var logger = new Aspect_logger();
+     * aop.before(print,function(method,...args){
+            //기본값으로 설정한 로거객체 메소드실행
+           logger.defaultBefore(method,...args);
+           기본값 원본 메소드실행..if문으로 파라미터 검사 후 실행 등 가능.
+           return 값을 넘겨주어야 afterReturn 으로 리턴값 확인 가능
+           return method.method(...args) 
+        });
+     */
     this.before = function(targetFun,aopFun){
-        
         before(targetFun,aopFun);
     }
+    /* var aop = new Aspect(); 
+     * aop.afterReturn(print,function(ret){
+            console.log('return : ' + ret);
+        })
+    
+     */
     this.afterReturn = function(targetFun,aopFun){
         afterReturn(targetFun,aopFun);
     }
     this.pointcut = function(pattern,name,aopFun){
-        for(var method of findFunction(pattern))
+        
+        
+        for(var method of findFunction(pattern)) {
             aop[name](method,aopFun);
+        }
+          
     }
     
     function findFunction(pattern){
@@ -31,22 +51,27 @@ var Aspect = function(){
         var result = [];
         for(i=0;i<=keys.length-1;i++) {
             if(pt.test(keys[i])) {
-            	if(typeof target[keys[i]] =='function')
-                result.push(target[keys[i]]);
+                target[keys[i]].aopName = keys[i];
+                if(typeof target[keys[i]] == 'function')
+                result.push(target[keys[i]]); 
             }
         }
-        console.log(result);
+        console.log('find : ',result)
         return result;
     }
     function afterReturn(run,returnFun){
         /*  
          *  
          */
+        setAopName(run);
         var methodName = run.aopName||run.name;
-        target[methodName] = function setReturn(){
+        target[methodName] = function(){
+            
             var ret = run(...arguments);
             var method = target[methodName];
+            
             returnFun(ret,method);
+            return ret;
         };
         target[methodName].aopName = methodName;
     }
@@ -55,14 +80,29 @@ var Aspect = function(){
         /*  
          *  
          */
+        setAopName(run);
         var methodName = run.aopName||run.name;
-        var name = 'name test';
-        target[methodName] = function setBefore(){
+        
+        
+        target[methodName] = function(){
+            
             var method = target[methodName];
-            beforeFun(method,...arguments);
-            return run(...arguments);
+            method.method = run;
+            beforeFun.prototype.meethod = method;
+            beforeFun.call(target,method,...arguments);
+            return run.call(target,...arguments);
         };
         target[methodName].aopName = methodName;
+        
+    }
+    
+    function setAopName(method){
+        var keys = Object.keys(target);
+        for(var key of keys) {
+            if( target[key] == method ){
+                method.aopName = key;
+            }
+        }
     }
 }
 
@@ -77,9 +117,12 @@ var Aspect_logger = function(){
     
     var isNeedArgs = true;
     var isNeedTrace = false;
+    
+    this.setIsNeedArgs = function(param){isNeedArgs = param}
+    this.setIsNeedTrace = function(param){isNeedTrace = param}
     this.defaultBefore = function(method,...args){
         
-        var info = writeInfo(method,...args)
+        var info = writeInfo(method,...args);
         
         var idx=0;
         var log = getTime()+method.info.executeNum+'. '+method.aopName +'()';
