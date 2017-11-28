@@ -5,7 +5,9 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -13,20 +15,28 @@
 	
 	<bean id="boarLogger" class="mvc.co.kr.ucs.aop.BoardAOP"></bean>
 	<aop:aspectj-autoproxy ></aop:aspectj-autoproxy>
-	
 	<context:component-scan base-package="co.kr.ucs.spring"/>
 	<context:component-scan base-package="mvc.co.kr.ucs"/>
 	<context:annotation-config/>
 	<bean id="transactionManager" 
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	class="mvc.co.kr.ucs.common.TransactionManagerTest">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:annotation-driven/>
+	<task:annotation-driven />
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="REQUIRED"/>
+			<tx:method name="*" rollback-for="Exception"/>
 		</tx:attributes>
 	</tx:advice>
-	
-	
+	<aop:config>
+
+        <aop:pointcut id="requiredTx" expression="execution(* mvc.co.kr.ucs..*(..))"/>
+
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
+
+    </aop:config>
+	 -->
 	
 </beans>

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import mvc.co.kr.ucs.bean.BoardBean;
 import mvc.co.kr.ucs.dao.StudyDAO;
@@ -22,11 +21,8 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
 	public int insertBoard(BoardBean bean){
 		int result = 0;
-		try {
-			result = Integer.parseInt(dao.insert("board.insert",bean) +"asdf");
-		}catch(Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-		}
+		result = dao.insert("board.insert",bean);
+		int test = Integer.parseInt("adsfdsf");
 		return result;
 	}
 
