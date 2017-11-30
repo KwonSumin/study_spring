@@ -52,7 +52,7 @@
 				<div>
 					<div class="field">비밀번호</div>	<div class="field">	<input id="login_pw" type="password" name="user_pw" />	</div>
 				</div>
-				<button onclick="return loginValidate();" >로그인</button> <button type="button" onclick="location.href='<%=request.getContextPath()%>/jsp/login/signUp.jsp'; " >회원가입</button>
+				<button onclick="return loginValidate();" >로그인</button> <button type="button" onclick="location.href='<%=request.getContextPath()%>/mvc/login/signUp'; " >회원가입</button>
 			</form>
 		
 		</c:if>

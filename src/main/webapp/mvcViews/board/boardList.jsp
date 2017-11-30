@@ -125,6 +125,7 @@ table td:nth-child(1) {
 	cursor: pointer;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/resource/js/table.js"></script>
@@ -183,6 +184,7 @@ table td:nth-child(1) {
 			</div>
 		</div>
 	</div>
+	
 	
 	<script>
 	
@@ -460,9 +462,15 @@ table td:nth-child(1) {
 	_paging.setObj(  (paging = JSON.parse('${json_paging}')) );
 	_paging.list = JSON.parse('${json_list}');
 	_paging.start();
-	
-	
-	
+/* 
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', function($scope, $http) {
+		$http.get(_rootPath+"/mvc/board/json").then(function(response){
+			console.log('angular : ',response.data);
+			//$scope.data = response.data;
+		});
+	});
+	 */
 </script>
 
 

@@ -30,7 +30,7 @@
 </head>
 	<body class="join">
 		<div class="container">
-			<form class="joinWrapper" method="post" action="<%=request.getContextPath() %>/sign/signup">
+			<form class="joinWrapper" method="post" action="<%=request.getContextPath() %>/mvc/login/signUp.do">
 				<h3>회원가입</h3>
 				<input type="hidden" name="process" value="siginup" />
 				<table border="1px">

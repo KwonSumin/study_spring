@@ -29,7 +29,8 @@ public class MvcBoardCtrl {
 	
 	
 	@RequestMapping(value="/mvc/board/list",method=RequestMethod.GET)
-	public ModelAndView list(ModelAndView mav,BoardBean bean,PagingBean paging) {
+	public ModelAndView list(ModelAndView mav,BoardBean bean,PagingBean paging)
+			throws Exception{
 		mav.setViewName("/board/boardList");
 		paging.setTotalData(svc.getTotal(bean));
 		bean.setTotalData(paging.getTotalData());
@@ -58,7 +59,8 @@ public class MvcBoardCtrl {
 	}
 	
 	@RequestMapping(value="/mvc/board/read",method=RequestMethod.GET)
-	public ModelAndView readBoard(ModelAndView mav,BoardBean bean) {
+	public ModelAndView readBoard(ModelAndView mav,BoardBean bean) 
+			throws Exception{
 		mav.setViewName("/board/boardRead");
 		BoardBean board = new BoardBean();
 		board = svc.getBoard(bean);
@@ -97,6 +99,14 @@ public class MvcBoardCtrl {
 		return "/board/error";
 	}
 	
+	@RequestMapping(value="/mvc/board/json")
+	public void getJson(HttpServletResponse response) throws Exception {
+		Writer out = getWriter(response);
+		BoardBean bean = new BoardBean();
+		bean.setSeq(100);
+		out.write(new Gson().toJson(svc.getBoard(bean)));
+		out.flush();out.close();
+	}
 	
 	private Writer getWriter(HttpServletResponse response) throws IOException {
 		response.setHeader("Content-Type", "text/html");

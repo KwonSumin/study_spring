@@ -1,5 +1,7 @@
 package mvc.co.kr.ucs.service;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -13,12 +15,12 @@ public class SignServiceImpl implements SignService{
 	@Resource
 	private StudyDAO dao;
 	
-	public boolean login(SignBean bean) {
+	public boolean login(SignBean bean) throws SQLException{
 		return 1<= (Integer)dao.SelectOne("sign.login",bean);
 	}
 
-	public boolean signUp(SignBean bean) {
-		return 1<= (Integer)dao.SelectOne("sign.login",bean);
+	public boolean signUp(SignBean bean) throws SQLException{
+		return 1<= (Integer)dao.insert("sign.join",bean);
 	}
 	
 }

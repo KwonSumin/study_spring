@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,6 +58,11 @@ public class LoginCtrl {
 		mav.setViewName("/login/signUp");
 		return mav;
 	}
+
+	@RequestMapping(value="/mvc/login/signUp",method=RequestMethod.GET)
+	public String signup() {
+		return "/login/signUp";
+	}
 	
 	@RequestMapping(value="/mvc/login/join.do",method=RequestMethod.POST)
 	public String doJoin(SignBean bean,ModelAndView mav,HttpServletRequest request,
@@ -82,6 +88,33 @@ public class LoginCtrl {
 		request.getSession().invalidate();
 		return "redirect:/mvc/login/login";
 	}
+	
+	@RequestMapping(value="/mvc/login/signUp.do")
+	public void doSignUp(SignBean bean,HttpServletResponse response) 
+		throws Exception{
+		Writer out = getWriter(response);
+		try {
+			
+			if(svc.signUp(bean)) {
+				out.write("<script>");
+				out.write("alert('회원가입 성공하였습니다.');");
+				out.write("location.href='/mvc/login/login';");
+				out.write("</script>");
+			} else {
+				
+				out.write("<script>");
+				out.write("alert('회원가입 실패하였습니다.');");
+				out.write("history.back();");
+				out.write("</script>");
+			}
+		}catch(DuplicateKeyException e) {
+			out.write("<script>");
+			out.write("alert('중복된 아이디입니다.');");
+			out.write("history.back();");
+			out.write("</script>");
+		} 
+	}
+	
 	
 	private Writer getWriter(HttpServletResponse response) throws IOException {
 		response.setHeader("Content-Type", "text/html");
