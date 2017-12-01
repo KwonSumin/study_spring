@@ -11,8 +11,8 @@
 		<config>src/main/webapp/WEB-INF/spring/database/jdbcTemplate-context.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/database/sqlSession-context.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/database/dataSource-context.xml</config>
-		<config>src/main/webapp/WEB-INF/root-context.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/application-context.xml</config>
+		<config>src/main/webapp/WEB-INF/servlet-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
