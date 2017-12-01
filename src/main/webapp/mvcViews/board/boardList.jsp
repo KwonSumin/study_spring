@@ -134,14 +134,7 @@ table td:nth-child(1) {
 </head>
 <body>
 
-	<%
-		PagingBean paging = (PagingBean) request.getAttribute("paging");
-		ArrayList<BoardBean> list = (ArrayList<BoardBean>) request.getAttribute("list");
-		if (paging.getSearchTarget() == null) {
-			paging.setSearchTarget("");
-			paging.setSearch("");
-		}
-	%>
+
 	<div class="overlay"></div>
 	<div class="container">
 	
@@ -152,7 +145,7 @@ table td:nth-child(1) {
 					action="${pageContext.request.contextPath}/board/list"> --%>
 					<div class="fieldWrapper">
 						<div class="field">
-							<select name="searchTarget">
+							<select name="searchTarget" style="margin-bottom:2px;height : 25px;">
 								<option value="title">제목</option>
 								<option value="REG_ID">작성자</option>
 							</select>
@@ -161,7 +154,7 @@ table td:nth-child(1) {
 							<input type="text" name="search" />
 						</div>
 					</div>
-					<input type="submit" class="btn" value="검색">
+					<input type="submit" class="btn" value="검색" style="margin-bottom:2px;">
 					<button type="button"
 						onclick="location.href='${pageContext.request.contextPath}/mvc/board/write' ">글쓰기</button>
 				<!-- </form> -->
@@ -190,9 +183,6 @@ table td:nth-child(1) {
 	
 	var _rootPath = '${pageContext.request.contextPath}';
 	var Paging = function(list){
-		
-		
-		
 		//설정값
 		var util = this;
 		var target = $('div.pagingBody');
@@ -214,14 +204,16 @@ table td:nth-child(1) {
 			defaultCss : {
 				small : {
 					width : '30px', height : '30px',
-					border : '1px solid black', display : 'inline-block'
+					border : '1px solid black', display : 'inline-block',
+					textAlign : 'center'
 				},
 				pagingBody : {
-					width : '350px', height : '30px',
+					width : '300px', height : '30px', textAlign : 'center',
 					border : '1px solid black', display : 'inline-block'
 				},
 				number : {
-					padding : '7px 7px', display : 'inline-block'
+					width : '30px', display : 'inline-block',
+					height : '100%'
 				}
 			}
 		}
@@ -258,7 +250,7 @@ table td:nth-child(1) {
 		//private functions
 		function fetchData(url,sucFun){
 			var loading = $('<div class="spin">');
-			
+			console.log('check : ',util.obj)
 			$('body').append(loading);
 			$('.overlay').show();
 			$.ajax({
@@ -266,7 +258,9 @@ table td:nth-child(1) {
 		        type:'POST',
 		        data: util.obj,
 		        success:function(data){
-		        	data = JSON.parse(data);
+		        	console.log(data);
+		        	if(typeof data != 'object')
+		        		data = JSON.parse(data);
 		        	sucFun(data);
 		        	$('.overlay').hide();
 		        	loading.remove();
@@ -419,7 +413,10 @@ table td:nth-child(1) {
 					var $td = $('<td data-value="'+field+'">');
 					if(field=='title') {
 						data = '<a href="'+readURL+'">'+data+'</a>';
+					} else if(field=='reg_date') {
+						data = setDateformat(data);
 					}
+					
 					$td.html(data);
 					$tr.append($td);	
 				}
@@ -428,6 +425,22 @@ table td:nth-child(1) {
 			function isEmpty(data){
 				if(data==null) return '';
 				return data;
+			}
+			function setDateformat(date) {
+				var sub = (new Date().getTime() - 
+						new Date(date).getTime() ) / 1000 /60 / 60;
+				if(sub <= 1){
+					return Math.floor(sub * 60) + '분 전';
+				} else if(sub <=24) {
+					return Math.floor(sub) + '시간 전';
+				} else if(sub<=(24 * 30)){
+					return Math.floor( sub / 24 ) + '일 전';
+				} else if( Math.floor( sub / 24 / 365 ) < 1  ){
+					return Math.floor( sub / 24 / 30 ) + '개월 전';
+				} else {
+					return Math.floor( sub / 24 / 365 ) + '년 전';
+				}
+				
 			}
 		}
 		
@@ -447,30 +460,49 @@ table td:nth-child(1) {
 			clickListener_search();
 		})();
 	}
-	var _paging = new Paging(JSON.parse('${json_list}'));
-	var aop = new Aspect();
-	var logger = new Aspect_logger();
-	aop.setTarget(_paging);
-	 
-	aop.pointcut('.*','before',function(method,...args){
-		logger.defaultBefore(method,...args);
+	
+	$(document).ready(function(){
+		
+		var _paging = new Paging();
+		var aop = new Aspect();
+		var logger = new Aspect_logger();
+		var loading = $('<div class="spin">');
+		var query = '?currentPage=${currentPage}&search=${search}&searchTarget=${searchTarget}'
+		$('body').append(loading);
+		$('.overlay').show();
+		console.log(_paging.obj);
+		$.ajax({
+	        url: _rootPath + "/mvc/board/list.ajax"+query,
+	        type:'POST',
+	        success:function(data){
+	        	console.log(data.paging)
+	        	_paging.setObj(data.paging);
+	        	_paging.list = data.list;
+	        	setAop();
+				_paging.start();
+				$('.overlay').hide();
+	        	loading.remove();
+	        },
+	        error:function(data){
+	        	console.log(data);
+	        	$('.overlay').hide();
+	        	loading.remove();
+	        }
+	    });
+		
+		function setAop(){
+			aop.setTarget(_paging);
+			aop.pointcut('.*','before',function(method,...args){
+				logger.defaultBefore(method,...args);
+			});
+			aop.pointcut('.*','afterReturn',function(ret,...args){
+				console.log('리턴값 : ', ret);
+			});
+		}
 	});
-	aop.pointcut('.*','afterReturn',function(ret,...args){
-		console.log('리턴값 : ', ret);
-	});
-	  
-	_paging.setObj(  (paging = JSON.parse('${json_paging}')) );
-	_paging.list = JSON.parse('${json_list}');
-	_paging.start();
-/* 
-	var app = angular.module('myApp', []);
-	app.controller('myCtrl', function($scope, $http) {
-		$http.get(_rootPath+"/mvc/board/json").then(function(response){
-			console.log('angular : ',response.data);
-			//$scope.data = response.data;
-		});
-	});
-	 */
+	
+	
+	
 </script>
 
 
