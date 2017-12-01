@@ -97,8 +97,6 @@
 			//내부 메소드
 			function checkLength(value, min, max,error){
 				var length = value.length;
-				console.log(length);
-				console.log(value)
 				if(length == 0) {
 					alert(error + ' 필수 항목 입니다.');
 					return false;
@@ -116,16 +114,6 @@
 			
 		}
 		
-		
-		ajax({
-			action : "<%=request.getContextPath()%>/TestCtrl/ajax",
-			method : 'POST',
-			data : "test=data",
-			sucess : function(data){
-				alert("성공");
-				console.log(JSON.parse(data));
-			}
-		});
 	</script>
 	
 </body>
