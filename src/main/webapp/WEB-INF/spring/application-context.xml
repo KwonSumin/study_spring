@@ -24,7 +24,7 @@
 	</bean>
 	<tx:annotation-driven/>
 	<task:annotation-driven />
-	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="REQUIRED"/>
 			<tx:method name="*" rollback-for="Exception"/>
@@ -37,6 +37,5 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
 
     </aop:config>
-	 -->
 	
 </beans>

@@ -461,9 +461,9 @@ table td:nth-child(1) {
 		})();
 	}
 	
+	var _paging = new Paging();
 	$(document).ready(function(){
 		
-		var _paging = new Paging();
 		var aop = new Aspect();
 		var logger = new Aspect_logger();
 		var loading = $('<div class="spin">');

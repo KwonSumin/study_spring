@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -44,24 +45,18 @@ public class MvcBoardCtrl {
 		mav.addObject("searchTarget", paging.getSearchTarget());
 		return mav;
 	}
-	
-	@RequestMapping(value="/mvc/board/list.ajax",method=RequestMethod.POST,produces = "application/json; charset=utf-8")
-	public void jsonList(ModelAndView mav,BoardBean bean,PagingBean paging,HttpServletResponse response)
+	@ResponseBody
+	@RequestMapping(value="/mvc/board/list.ajax",method=RequestMethod.POST)
+	public HashMap jsonList(ModelAndView mav,BoardBean bean,PagingBean paging,HttpServletResponse response)
 		throws Exception{
 		paging.setTotalData(svc.getTotal(bean));
 		bean.setTotalData(paging.getTotalData());
 		response.setCharacterEncoding("utf-8");
-		Writer out = response.getWriter();
-		response.setHeader("Content-Type", "application/json");
-		response.setContentType("application/json;charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
 		List list = svc.getList(bean);
 		HashMap map = new HashMap();
 		map.put("list", list);
 		map.put("paging",paging);
-		out.write(new Gson().toJson(map));
-		out.flush();
-		
+		return map;
 	}
 	
 	@RequestMapping(value="/mvc/board/read",method=RequestMethod.GET)

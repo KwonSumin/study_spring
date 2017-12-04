@@ -23,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(BoardBean bean)throws SQLException{
 		int result = 0;
 		result = dao.insert("board.insert",bean);
-		int test = Integer.parseInt("adsfdsf");
+		//int test = Integer.parseInt("adsfdsf");
 		return result;
 	}
 
